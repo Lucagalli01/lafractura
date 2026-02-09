@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El agua que nos une y nos divide · LA FRACTURA</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Archivo+Black&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cielo-neuquen: #87CEEB;
+            --nieve: #F8F9FA;
+            --piedra: #4A5568;
+            --araucaria: #2D5F3F;
+            --volcan: #1A365D;
+            --rio: #4299E1;
+            --arcilla: #C05621;
+            --sol: #F6AD55;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--cielo-neuquen);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(135, 206, 235, 0) 30%
+            );
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        header {
+            border-bottom: 3px solid white;
+            padding: 2rem 4rem;
+            position: sticky;
+            top: 0;
+            background: rgba(135, 206, 235, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(255, 255, 255, 0.2);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .site-branding {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .brand-icon {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .brand-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .site-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: -1px;
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .site-title:hover {
+            opacity: 0.8;
+        }
+        
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: lowercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: var(--volcan);
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 2rem 4rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        
+        .breadcrumb a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 0.5rem;
+            opacity: 0.6;
+        }
+        
+        /* Article container */
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .article-header {
+            margin-bottom: 3rem;
+        }
+        
+        .article-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .article-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            color: white;
+            opacity: 0.9;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .featured-image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, var(--rio), var(--volcan));
+            margin: 3rem 0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(0.85) brightness(1.1);
+        }
+        
+        .article-content {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: white;
+        }
+        
+        .article-content p {
+            margin-bottom: 1.8rem;
+        }
+        
+        .article-content h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+        
+        .article-content h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.4rem;
+            margin: 2.5rem 0 1rem;
+            color: white;
+            letter-spacing: -0.3px;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid white;
+            padding-left: 2rem;
+            margin: 2.5rem 0;
+            font-style: italic;
+            font-size: 1.25rem;
+            opacity: 0.95;
+        }
+        
+        .article-content ul,
+        .article-content ol {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .article-content a {
+            color: white;
+            text-decoration: underline;
+            text-decoration-color: rgba(255, 255, 255, 0.4);
+            transition: text-decoration-color 0.3s;
+        }
+        
+        .article-content a:hover {
+            text-decoration-color: white;
+        }
+        
+        /* Pull quote */
+        .pull-quote {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            margin: 3rem -2rem;
+            border-left: 5px solid white;
+            font-size: 1.4rem;
+            font-style: italic;
+            line-height: 1.6;
+        }
+        
+        /* Author bio */
+        .author-bio {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rio), var(--volcan));
+            flex-shrink: 0;
+        }
+        
+        .author-info h4 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+        
+        .author-info p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: white;
+            opacity: 0.9;
+        }
+        
+        /* Related articles */
+        .related-articles {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .related-articles h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid white;
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        
+        .related-card {
+            background: white;
+            border-radius: 3px;
+            overflow: hidden;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 10px rgba(26, 54, 93, 0.08);
+        }
+        
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.2);
+        }
+        
+        .related-card-image {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg, var(--cielo-neuquen), var(--rio));
+        }
+        
+        .related-card-content {
+            padding: 1.5rem;
+        }
+        
+        .related-card-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--rio);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .related-card-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.2rem;
+            line-height: 1.3;
+            color: var(--volcan);
+            font-weight: 700;
+        }
+        
+        /* Newsletter CTA */
+        .newsletter-cta {
+            background: linear-gradient(135deg, var(--cielo-neuquen) 0%, var(--rio) 100%);
+            padding: 4rem;
+            margin: 4rem 0;
+            text-align: center;
+        }
+        
+        .newsletter-cta h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .newsletter-cta p {
+            font-size: 1.05rem;
+            color: white;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 0;
+            box-shadow: 0 4px 20px rgba(26, 54, 93, 0.2);
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 1.2rem 1.5rem;
+            background: white;
+            border: none;
+            color: var(--volcan);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+        }
+        
+        .newsletter-form button {
+            padding: 1.2rem 2.5rem;
+            background: var(--volcan);
+            border: none;
+            color: white;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .newsletter-form button:hover {
+            background: var(--araucaria);
+        }
+        
+        /* Footer */
+        footer {
+            padding: 4rem;
+            border-top: 2px solid white;
+            background: rgba(135, 206, 235, 0.95);
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: lowercase;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 0.7;
+        }
+        
+        .copyright {
+            color: white;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .article-container,
+            .related-articles {
+                padding: 2rem;
+            }
+            
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .author-bio {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="site-branding">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25 5 L25 45" stroke="#2D5F3F" stroke-width="2"/>
+                        <path d="M15 15 L35 15" stroke="#2D5F3F" stroke-width="1.5"/>
+                        <path d="M12 22 L38 22" stroke="#2D5F3F" stroke-width="1.5"/>
+                        <path d="M10 29 L40 29" stroke="#2D5F3F" stroke-width="1.5"/>
+                        <path d="M12 36 L38 36" stroke="#2D5F3F" stroke-width="1.5"/>
+                        <circle cx="25" cy="12" r="2" fill="#4299E1"/>
+                    </svg>
+                </div>
+                <a href="index.html" class="site-title">LA FRACTURA</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a href="archivo.html">archivo</a></li>
+                    <li><a href="manifiesto.html">manifiesto</a></li>
+                    <li><a href="#subscribe">suscribirse</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="index.html">inicio</a>
+        <span>/</span>
+        <a href="archivo.html">territorio</a>
+        <span>/</span>
+        <span style="opacity: 1;">el agua que nos une y nos divide</span>
+    </div>
+    
+    <!-- Article -->
+    <article class="article-container">
+        <header class="article-header">
+            <div class="article-category">TERRITORIO</div>
+            <h1 class="article-title">El agua que nos une y nos divide</h1>
+            <div class="article-meta">
+                <span>📅 03 de febrero, 2026</span>
+                <span>⏱ 12 min de lectura</span>
+                <span>✍️ Por Equipo La Fractura</span>
+            </div>
+        </header>
+        
+        <div class="featured-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2387CEEB;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%231A365D;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23grad)' width='1600' height='900'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-size='48' fill='white' opacity='0.9'%3ECONFLUENCIA%3C/text%3E%3C/svg%3E" alt="Confluencia de ríos">
+        </div>
+        
+        <div class="article-content">
+            <p>
+                En el corazón de Neuquén, donde el río homónimo y el Limay se encuentran para dar nacimiento al Negro, 
+                se concentra mucho más que un fenómeno geográfico. Esa confluencia es el símbolo perfecto de lo que 
+                somos como provincia: un territorio atravesado por corrientes de poder, intereses económicos y disputas 
+                que definen quién tiene acceso al recurso más valioso de la Patagonia.
+            </p>
+            
+            <p>
+                El agua no es solo agua en Neuquén. Es energía hidroeléctrica, es riego para fruticultura, es turismo, 
+                es desarrollo urbano, es soberanía. Y como todo recurso estratégico, tiene dueños que no siempre coinciden 
+                con quienes más la necesitan.
+            </p>
+            
+            <h2>La historia que no se cuenta</h2>
+            
+            <p>
+                Cuando se habla de los ríos neuquinos, la narrativa oficial celebra las represas, los megavatios generados, 
+                el "progreso" que trajeron. Pero hay otra historia, menos épica y más incómoda: la de las comunidades 
+                mapuche desplazadas, los valles inundados, los ecosistemas alterados para siempre.
+            </p>
+            
+            <blockquote>
+                "El río era nuestro antes de ser un recurso estratégico. Era vida, no megavatios."
+            </blockquote>
+            
+            <p>
+                Las represas El Chocón, Alicurá, Piedra del Águila, Pichi Picún Leufú, Arroyito y Planicie Banderita 
+                transformaron el paisaje y la economía provincial. Generan electricidad para todo el país. Pero ese 
+                desarrollo tuvo un costo que se pagó localmente: territorios ancestrales bajo el agua, biodiversidad 
+                perdida, comunidades fragmentadas.
+            </p>
+            
+            <h2>El agua como commodity</h2>
+            
+            <p>
+                Hoy, el modelo extractivista de Vaca Muerta agrega una nueva presión sobre el recurso hídrico. El fracking 
+                demanda millones de litros de agua. En una provincia donde el cambio climático ya está reduciendo los 
+                caudales de ríos y lagos, esta nueva demanda genera tensiones que van en aumento.
+            </p>
+            
+            <div class="pull-quote">
+                "El desarrollo de Vaca Muerta no es compatible con la preservación del ciclo hidrológico patagónico. 
+                Alguien va a tener que ceder, y ese alguien nunca son las petroleras."
+            </div>
+            
+            <p>
+                Las comunidades del norte neuquino, tradicionalmente ganaderas, ven cómo se disputa el agua entre el uso 
+                ancestral, el riego agrícola, y ahora el extractivismo hidrocarburífero. La Ley de Aguas provincial intenta 
+                regular, pero en la práctica, el poder económico define las prioridades.
+            </p>
+            
+            <h3>La sequía que se viene</h3>
+            
+            <p>
+                Los glaciares andinos retroceden. Los caudales de los ríos disminuyen año tras año. Las lluvias son más 
+                erráticas. El cambio climático no es futuro en Neuquén: es presente. Y ante este escenario, seguimos 
+                planificando como si el agua fuera infinita.
+            </p>
+            
+            <p>
+                El lago Pellegrini, alimentado por el Limay, ha llegado a niveles históricamente bajos. Las tomas de agua 
+                para riego están en riesgo. Los sistemas de generación hidroeléctrica operan con márgenes cada vez más 
+                ajustados. Pero el modelo productivo sigue siendo el mismo.
+            </p>
+            
+            <h2>¿Quién decide sobre el agua?</h2>
+            
+            <p>
+                La gobernanza del agua en Neuquén es un sistema complejo de organismos provinciales, interjurisdiccionales 
+                y concesionarios privados. La Autoridad Interjurisdiccional de las Cuencas de los ríos Limay, Neuquén y Negro 
+                (AIC) debería ser el espacio de planificación integrada. En la práctica, es un ámbito donde los gobiernos 
+                provinciales defienden sus intereses sin visión de cuenca.
+            </p>
+            
+            <p>
+                Mientras tanto, las comunidades que viven del agua, que la cuidan, que la conocen desde hace generaciones, 
+                no tienen voz en estas instancias de decisión. El Parlamento Mapuche reclama participación efectiva en la 
+                gestión del recurso hídrico. Sus demandas sistemáticamente ignoradas.
+            </p>
+            
+            <h2>El desafío pendiente</h2>
+            
+            <p>
+                Neuquén necesita una política del agua que ponga por delante la sustentabilidad ecológica y la justicia social. 
+                Eso implica repensar el modelo extractivista, reconocer derechos territoriales indígenas, invertir en eficiencia 
+                hídrica, y prepararse para un futuro con menos agua disponible.
+            </p>
+            
+            <p>
+                No es un debate técnico. Es político. Y como todo lo político en Neuquén, tiene que ver con poder: quién lo 
+                tiene, quién lo pierde, quién decide. El agua nos une geográficamente, pero nos divide económicamente. 
+                Esa fractura atraviesa nuestra identidad provincial.
+            </p>
+            
+            <p>
+                Los ríos seguirán fluyendo. La pregunta es: ¿hacia dónde y para quién?
+            </p>
+        </div>
+        
+        <div class="author-bio">
+            <div class="author-avatar"></div>
+            <div class="author-info">
+                <h4>Equipo La Fractura</h4>
+                <p>
+                    Colectivo de periodistas, investigadores y activistas que trabajan en visibilizar las tensiones 
+                    estructurales del modelo de desarrollo neuquino. Sin sponsors, sin línea editorial corporativa.
+                </p>
+            </div>
+        </div>
+    </article>
+    
+    <!-- Newsletter CTA -->
+    <section class="newsletter-cta" id="subscribe">
+        <h3>¿Te interesa este tipo de análisis?</h3>
+        <p>Suscribite para recibir investigaciones profundas sobre Neuquén y la región</p>
+        <form class="newsletter-form">
+            <input type="email" placeholder="tu.email@ejemplo.com" required>
+            <button type="submit">suscribirme</button>
+        </form>
+    </section>
+    
+    <!-- Related Articles -->
+    <section class="related-articles">
+        <h3>Artículos relacionados</h3>
+        <div class="related-grid">
+            <a href="articulo-vaca-muerta.html" class="related-card">
+                <div class="related-card-image"></div>
+                <div class="related-card-content">
+                    <div class="related-card-tag">ENERGÍA</div>
+                    <h4 class="related-card-title">Vaca Muerta: más allá del petróleo</h4>
+                </div>
+            </a>
+            
+            <a href="articulo-mapuche.html" class="related-card">
+                <div class="related-card-image"></div>
+                <div class="related-card-content">
+                    <div class="related-card-tag">PUEBLOS ORIGINARIOS</div>
+                    <h4 class="related-card-title">La lucha por el territorio mapuche</h4>
+                </div>
+            </a>
+            
+            <a href="articulo-incendios.html" class="related-card">
+                <div class="related-card-image"></div>
+                <div class="related-card-content">
+                    <div class="related-card-tag">AMBIENTE</div>
+                    <h4 class="related-card-title">Los incendios que nadie quiere nombrar</h4>
+                </div>
+            </a>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="manifiesto.html">manifiesto</a>
+                <a href="archivo.html">archivo</a>
+                <a href="contacto.html">contacto</a>
+                <a href="#rss">rss</a>
+            </div>
+            <p class="copyright">© 2026 la fractura · pensando desde el sur</p>
+        </div>
+    </footer>
+</body>
+</html>

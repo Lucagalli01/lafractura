@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manifiesto · LA FRACTURA</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Archivo+Black&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cielo-neuquen: #87CEEB;
+            --nieve: #F8F9FA;
+            --piedra: #4A5568;
+            --araucaria: #2D5F3F;
+            --volcan: #1A365D;
+            --rio: #4299E1;
+            --arcilla: #C05621;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--cielo-neuquen);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(135, 206, 235, 0) 30%
+            );
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        header {
+            border-bottom: 3px solid white;
+            padding: 2rem 4rem;
+            position: sticky;
+            top: 0;
+            background: rgba(135, 206, 235, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(255, 255, 255, 0.2);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .site-branding {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .brand-icon {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .brand-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .site-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: -1px;
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .site-title:hover {
+            opacity: 0.8;
+        }
+        
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: lowercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .manifesto-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 6rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .manifesto-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 0.95;
+            margin-bottom: 3rem;
+            color: white;
+            letter-spacing: -3px;
+            text-transform: uppercase;
+        }
+        
+        .manifesto-intro {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.4rem;
+            line-height: 1.8;
+            margin-bottom: 4rem;
+            font-style: italic;
+            opacity: 0.95;
+        }
+        
+        .manifesto-section {
+            margin-bottom: 4rem;
+        }
+        
+        .manifesto-section h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            letter-spacing: -1px;
+        }
+        
+        .manifesto-section p {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.15rem;
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        .manifesto-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .manifesto-section li {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.15rem;
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+        
+        .manifesto-section li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.15);
+            border-left: 5px solid white;
+            padding: 2rem;
+            margin: 3rem 0;
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+        
+        .signatories {
+            margin-top: 5rem;
+            padding-top: 3rem;
+            border-top: 2px solid white;
+        }
+        
+        .signatories h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .signatories p {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        
+        footer {
+            padding: 4rem;
+            border-top: 2px solid white;
+            background: rgba(135, 206, 235, 0.95);
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: lowercase;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 0.7;
+        }
+        
+        .copyright {
+            color: white;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .manifesto-container {
+                padding: 3rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="site-branding">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25 5 L25 45" stroke="#2D5F3F" stroke-width="2"/>
+                        <path d="M15 15 L35 15" stroke="#2D5F3F" stroke-width="1.5"/>
+                        <path d="M12 22 L38 22" stroke="#2D5F3F" stroke-width="1.5"/>
+                        <path d="M10 29 L40 29" stroke="#2D5F3F" stroke-width="1.5"/>
+                        <path d="M12 36 L38 36" stroke="#2D5F3F" stroke-width="1.5"/>
+                        <circle cx="25" cy="12" r="2" fill="#4299E1"/>
+                    </svg>
+                </div>
+                <a href="index.html" class="site-title">LA FRACTURA</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a href="archivo.html">archivo</a></li>
+                    <li><a href="manifiesto.html">manifiesto</a></li>
+                    <li><a href="#subscribe">suscribirse</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Manifesto Content -->
+    <div class="manifesto-container">
+        <h1 class="manifesto-title">Manifiesto</h1>
+        
+        <p class="manifesto-intro">
+            La Fractura nace de una incomodidad: el periodismo neuquino reproduce las mismas narrativas, 
+            evita las mismas preguntas, y silencia las mismas voces. Este medio existe para romper ese consenso.
+        </p>
+        
+        <section class="manifesto-section">
+            <h2>Por qué existimos</h2>
+            <p>
+                Neuquén vive de contradicciones. Somos la provincia del petróleo y el gas, pero también de 
+                glaciares que retroceden. Proclamamos autonomía provincial mientras entregamos recursos al 
+                mejor postor. Celebramos la diversidad cultural mientras invisibilizamos a los pueblos originarios.
+            </p>
+            <p>
+                Esas fracturas definen nuestra identidad. Y el periodismo que no las nombra es cómplice del 
+                silencio. Nosotros las nombramos. Esa es nuestra razón de ser.
+            </p>
+        </section>
+        
+        <div class="highlight-box">
+            No buscamos objetividad. Buscamos honestidad. No pretendemos equilibrio entre verdad y mentira. 
+            Defendemos la verdad, punto.
+        </div>
+        
+        <section class="manifesto-section">
+            <h2>Qué defendemos</h2>
+            <ul>
+                <li>
+                    <strong>Independencia editorial:</strong> No respondemos a gobiernos, empresas ni partidos políticos. 
+                    Nuestros ingresos vienen de nuestros lectores, no de sponsors que condicionen nuestra línea editorial.
+                </li>
+                <li>
+                    <strong>Rigor investigativo:</strong> Cada afirmación que hacemos está sustentada en documentación, 
+                    testimonios verificados y análisis contrastado. No publicamos rumores disfrazados de noticias.
+                </li>
+                <li>
+                    <strong>Compromiso territorial:</strong> Escribimos desde y sobre Neuquén. Conocemos el terreno 
+                    porque lo caminamos. No hacemos periodismo de escritorio sobre realidades que desconocemos.
+                </li>
+                <li>
+                    <strong>Amplificación de voces silenciadas:</strong> Priorizamos las perspectivas de quienes 
+                    históricamente fueron excluidos del debate público: comunidades mapuche, trabajadores precarizados, 
+                    ambientalistas, víctimas del extractivismo.
+                </li>
+                <li>
+                    <strong>Crítica al poder:</strong> No importa quién gobierne, nuestro rol es fiscalizar. El poder 
+                    se controla, no se celebra. Y el poder económico merece la misma vigilancia que el político.
+                </li>
+            </ul>
+        </section>
+        
+        <section class="manifesto-section">
+            <h2>Qué rechazamos</h2>
+            <p>
+                Rechazamos el falso equilibrio que equipara a víctimas con victimarios. Rechazamos la cobertura 
+                acrítica de anuncios oficiales. Rechazamos el periodismo como relaciones públicas del gobierno o 
+                las corporaciones de turno.
+            </p>
+            <p>
+                Rechazamos la idea de que el periodismo debe ser "neutro" frente a la injusticia. La neutralidad 
+                frente al abuso es complicidad. Nosotros elegimos lado: el de quienes no tienen voz en los medios 
+                hegemónicos.
+            </p>
+        </section>
+        
+        <div class="highlight-box">
+            El periodismo no es entretenimiento. Es un servicio público. Y nosotros lo tomamos en serio.
+        </div>
+        
+        <section class="manifesto-section">
+            <h2>Cómo trabajamos</h2>
+            <p>
+                Somos un colectivo de periodistas, investigadores, fotógrafos y activistas. Trabajamos de forma 
+                horizontal, sin jerarquías editoriales rígidas. Cada decisión importante se toma colectivamente.
+            </p>
+            <p>
+                Nuestras fuentes de financiamiento son transparentes: suscripciones de lectores, donaciones 
+                puntuales, y ocasionalmente grants de fundaciones que no condicionan nuestro contenido. Publicamos 
+                nuestros balances anuales.
+            </p>
+            <p>
+                Corregimos nuestros errores públicamente. Cuando nos equivocamos, lo admitimos y rectificamos. 
+                La credibilidad se construye con honestidad, no con infalibilidad fingida.
+            </p>
+        </section>
+        
+        <section class="manifesto-section">
+            <h2>A quién nos debemos</h2>
+            <p>
+                Nos debemos a nuestros lectores. A quienes nos leen buscando información que no encuentran en 
+                otros medios. A quienes nos sostienen económicamente porque creen que este proyecto vale la pena.
+            </p>
+            <p>
+                Nos debemos al territorio neuquino. A su complejidad, a sus contradicciones, a su futuro incierto. 
+                Escribimos porque creemos que entender estas fracturas es el primer paso para repararlas.
+            </p>
+        </section>
+        
+        <div class="highlight-box">
+            Este no es un medio más. Es un compromiso con la verdad incómoda. Si esperás que te hagamos sentir 
+            bien, buscá en otro lado. Si querés entender, quedáte.
+        </div>
+        
+        <div class="signatories">
+            <h3>El colectivo</h3>
+            <p>
+                Este manifiesto no lleva firmas individuales porque La Fractura es un proyecto colectivo. 
+                Somos periodistas, editores, fotógrafos, diseñadores y programadores que elegimos trabajar 
+                juntos por un periodismo distinto. Nuestro compromiso es con el proyecto, no con el ego.
+            </p>
+            <p style="margin-top: 2rem; font-style: italic;">
+                Neuquén, febrero de 2026
+            </p>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="manifiesto.html">manifiesto</a>
+                <a href="archivo.html">archivo</a>
+                <a href="contacto.html">contacto</a>
+                <a href="#rss">rss</a>
+            </div>
+            <p class="copyright">© 2026 la fractura · pensando desde el sur</p>
+        </div>
+    </footer>
+</body>
+</html>

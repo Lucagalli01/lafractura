@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivo · LA FRACTURA</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Archivo+Black&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cielo-neuquen: #87CEEB;
+            --nieve: #F8F9FA;
+            --piedra: #4A5568;
+            --araucaria: #2D5F3F;
+            --volcan: #1A365D;
+            --rio: #4299E1;
+            --arcilla: #C05621;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--cielo-neuquen);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(135, 206, 235, 0) 30%
+            );
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        header {
+            border-bottom: 3px solid white;
+            padding: 2rem 4rem;
+            position: sticky;
+            top: 0;
+            background: rgba(135, 206, 235, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(255, 255, 255, 0.2);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .site-branding {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .brand-icon {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .brand-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .site-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: -1px;
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .site-title:hover {
+            opacity: 0.8;
+        }
+        
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: lowercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .archive-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .archive-header {
+            margin-bottom: 4rem;
+        }
+        
+        .archive-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            margin-bottom: 1rem;
+            color: white;
+            letter-spacing: -2px;
+        }
+        
+        .archive-description {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.2rem;
+            max-width: 700px;
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+        
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            text-transform: lowercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: white;
+            color: var(--cielo-neuquen);
+        }
+        
+        /* Categories */
+        .category-section {
+            margin-bottom: 4rem;
+        }
+        
+        .category-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid white;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+        
+        .articles-list {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .article-item {
+            background: white;
+            border-radius: 3px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 10px rgba(26, 54, 93, 0.08);
+            text-decoration: none;
+        }
+        
+        .article-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.2);
+        }
+        
+        .article-thumb {
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+            background: linear-gradient(135deg, var(--cielo-neuquen), var(--rio));
+        }
+        
+        .article-info {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .article-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--rio);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .article-item-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.5rem;
+            line-height: 1.3;
+            margin-bottom: 0.75rem;
+            color: var(--volcan);
+            font-weight: 700;
+        }
+        
+        .article-excerpt {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 0.95rem;
+            color: var(--piedra);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta-line {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--piedra);
+            opacity: 0.8;
+        }
+        
+        footer {
+            padding: 4rem;
+            border-top: 2px solid white;
+            background: rgba(135, 206, 235, 0.95);
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: lowercase;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 0.7;
+        }
+        
+        .copyright {
+            color: white;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .archive-container {
+                padding: 2rem;
+            }
+            
+            .article-item {
+                grid-template-columns: 1fr;
+            }
+            
+            .article-thumb {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="site-branding">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25 5 L25 45" stroke="#2D5F3F" stroke-width="2"/>
+                        <path d="M15 15 L35 15" stroke="#2D5F3F" stroke-width="1.5"/>
+                        <path d="M12 22 L38 22" stroke="#2D5F3F" stroke-width="1.5"/>
+                        <path d="M10 29 L40 29" stroke="#2D5F3F" stroke-width="1.5"/>
+                        <path d="M12 36 L38 36" stroke="#2D5F3F" stroke-width="1.5"/>
+                        <circle cx="25" cy="12" r="2" fill="#4299E1"/>
+                    </svg>
+                </div>
+                <a href="index.html" class="site-title">LA FRACTURA</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a href="archivo.html">archivo</a></li>
+                    <li><a href="manifiesto.html">manifiesto</a></li>
+                    <li><a href="#subscribe">suscribirse</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Archive -->
+    <div class="archive-container">
+        <div class="archive-header">
+            <h1 class="archive-title">Archivo</h1>
+            <p class="archive-description">
+                Todo lo que hemos publicado, organizado por categoría. Análisis profundos sobre Neuquén 
+                y la Patagonia que no encontrarás en ningún otro medio.
+            </p>
+        </div>
+        
+        <!-- Filters -->
+        <div class="filters">
+            <button class="filter-btn active">todas</button>
+            <button class="filter-btn">territorio</button>
+            <button class="filter-btn">energía</button>
+            <button class="filter-btn">política</button>
+            <button class="filter-btn">ambiente</button>
+            <button class="filter-btn">pueblos originarios</button>
+        </div>
+        
+        <!-- Territorio -->
+        <section class="category-section">
+            <h2 class="category-title">Territorio</h2>
+            <div class="articles-list">
+                <a href="articulo-agua.html" class="article-item">
+                    <div class="article-thumb"></div>
+                    <div class="article-info">
+                        <div class="article-tag">TERRITORIO</div>
+                        <h3 class="article-item-title">El agua que nos une y nos divide</h3>
+                        <p class="article-excerpt">
+                            Los ríos Neuquén y Limay no son solo geografía. Son política, economía, historia viva. 
+                            Una investigación sobre cómo el agua moldea el destino de nuestra provincia.
+                        </p>
+                        <div class="article-meta-line">
+                            <span>03 feb 2026</span>
+                            <span>12 min lectura</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Energía -->
+        <section class="category-section">
+            <h2 class="category-title">Energía</h2>
+            <div class="articles-list">
+                <a href="#" class="article-item">
+                    <div class="article-thumb"></div>
+                    <div class="article-info">
+                        <div class="article-tag">ENERGÍA</div>
+                        <h3 class="article-item-title">Vaca Muerta: más allá del petróleo</h3>
+                        <p class="article-excerpt">
+                            La formación no convencional más grande de Argentina está en Neuquén. Pero el desarrollo 
+                            extractivo tiene costos que nadie está contando.
+                        </p>
+                        <div class="article-meta-line">
+                            <span>28 ene 2026</span>
+                            <span>15 min lectura</span>
+                            <span>🔒 suscriptores</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Pueblos Originarios -->
+        <section class="category-section">
+            <h2 class="category-title">Pueblos Originarios</h2>
+            <div class="articles-list">
+                <a href="#" class="article-item">
+                    <div class="article-thumb"></div>
+                    <div class="article-info">
+                        <div class="article-tag">PUEBLOS ORIGINARIOS</div>
+                        <h3 class="article-item-title">La lucha por el territorio mapuche</h3>
+                        <p class="article-excerpt">
+                            Neuquén es tierra de encuentro, dice el himno. Pero el encuentro histórico fue violento. 
+                            Hoy, las comunidades mapuche reclaman lo que nunca debió ser arrebatado.
+                        </p>
+                        <div class="article-meta-line">
+                            <span>20 ene 2026</span>
+                            <span>18 min lectura</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Ambiente -->
+        <section class="category-section">
+            <h2 class="category-title">Ambiente</h2>
+            <div class="articles-list">
+                <a href="#" class="article-item">
+                    <div class="article-thumb"></div>
+                    <div class="article-info">
+                        <div class="article-tag">AMBIENTE</div>
+                        <h3 class="article-item-title">Los incendios que nadie quiere nombrar</h3>
+                        <p class="article-excerpt">
+                            La Patagonia arde cada verano. Pero el fuego tiene causas y tiene responsables. 
+                            Una investigación sobre el negocio inmobiliario detrás de las llamas.
+                        </p>
+                        <div class="article-meta-line">
+                            <span>12 ene 2026</span>
+                            <span>14 min lectura</span>
+                            <span>🔒 suscriptores</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Política -->
+        <section class="category-section">
+            <h2 class="category-title">Política</h2>
+            <div class="articles-list">
+                <a href="#" class="article-item">
+                    <div class="article-thumb"></div>
+                    <div class="article-info">
+                        <div class="article-tag">POLÍTICA</div>
+                        <h3 class="article-item-title">El modelo neuquino en crisis</h3>
+                        <p class="article-excerpt">
+                            Décadas de hegemonía política construyeron un modelo particular. Ahora ese modelo 
+                            se enfrenta a sus propias contradicciones.
+                        </p>
+                        <div class="article-meta-line">
+                            <span>05 ene 2026</span>
+                            <span>16 min lectura</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="#" class="article-item">
+                    <div class="article-thumb"></div>
+                    <div class="article-info">
+                        <div class="article-tag">ECONOMÍA</div>
+                        <h3 class="article-item-title">Turismo: ¿desarrollo o gentrificación?</h3>
+                        <p class="article-excerpt">
+                            Villa La Angostura, San Martín de los Andes, Copahue. El turismo trae divisas, 
+                            pero también expulsa a los locales.
+                        </p>
+                        <div class="article-meta-line">
+                            <span>28 dic 2025</span>
+                            <span>11 min lectura</span>
+                            <span>🔒 suscriptores</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Cultura -->
+        <section class="category-section">
+            <h2 class="category-title">Cultura</h2>
+            <div class="articles-list">
+                <a href="#" class="article-item">
+                    <div class="article-thumb"></div>
+                    <div class="article-info">
+                        <div class="article-tag">CULTURA</div>
+                        <h3 class="article-item-title">El pehuén como símbolo de resistencia</h3>
+                        <p class="article-excerpt">
+                            La araucaria es más que un árbol en la bandera. Es memoria viva, alimento sagrado, 
+                            símbolo de identidad.
+                        </p>
+                        <div class="article-meta-line">
+                            <span>15 dic 2025</span>
+                            <span>9 min lectura</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="manifiesto.html">manifiesto</a>
+                <a href="archivo.html">archivo</a>
+                <a href="contacto.html">contacto</a>
+                <a href="#rss">rss</a>
+            </div>
+            <p class="copyright">© 2026 la fractura · pensando desde el sur</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Simple filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const categories = document.querySelectorAll('.category-section');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active to clicked button
+                this.classList.add('active');
+                
+                const filter = this.textContent.toLowerCase();
+                
+                // Show/hide categories
+                categories.forEach(category => {
+                    const categoryName = category.querySelector('.category-title').textContent.toLowerCase();
+                    if (filter === 'todas' || categoryName.includes(filter)) {
+                        category.style.display = 'block';
+                    } else {
+                        category.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
