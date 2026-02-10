@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Archivo+Black&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* PEGA AQUÍ TODO EL CSS DE TU index.html ACTUAL */
+        /* Busca el bloque <style> de tu index.html y cópialo aquí */
+        :root {
+            --cielo: #00A3DD;
+            --oro: #D4AF37;
+            --pehuen: #1A4D2E;
+            --rojo-nqn: #C1292E;
+            --blanco: #FFFFFF;
+            --negro: #1A1A1A;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--cielo);
+            color: var(--blanco);
+            line-height: 1.6;
+        }
+        
+        /* ... TODO EL RESTO DEL CSS ... */
+    </style>
+</head>
+<body>
+    {% include header.html %}
+    
+    <main>
+        {{ content }}
+    </main>
+    
+    {% include footer.html %}
+</body>
+</html>
