@@ -1,0 +1,29 @@
+# Configuración de Netlify para La Fractura
+# Versión simplificada - sin build process
+
+[build]
+  publish = "."
+  # Sin comando de build - el sitio funciona directo con HTML + JS
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+
+# CORS para permitir que JavaScript lea archivos de GitHub
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=600"
