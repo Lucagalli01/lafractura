@@ -1,0 +1,26 @@
+backend:
+  name: git-gateway
+  branch: main
+  commit_messages:
+    create: 'Crear artículo: "{{title}}"'
+    update: 'Actualizar artículo: "{{title}}"'
+    delete: 'Eliminar artículo: "{{title}}"'
+
+media_folder: "static/img"
+public_folder: "/img"
+
+collections:
+  - name: "articulos"
+    label: "Artículos"
+    folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Título", name: "title", widget: "string"}
+      - {label: "Categoría", name: "category", widget: "select", options: ["TERRITORIO", "ENERGÍA", "PUEBLOS ORIGINARIOS", "AMBIENTE", "POLÍTICA", "ECONOMÍA", "CULTURA"]}
+      - {label: "Fecha", name: "date", widget: "datetime"}
+      - {label: "Autor", name: "author", widget: "string", default: "Equipo La Fractura"}
+      - {label: "Extracto", name: "excerpt", widget: "text"}
+      - {label: "Contenido", name: "body", widget: "markdown"}
+      - {label: "Destacado", name: "featured", widget: "boolean", default: false}
+      - {label: "Solo suscriptores", name: "subscribers_only", widget: "boolean", default: false}
