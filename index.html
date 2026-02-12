@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LA FRACTURA · Pensando desde el sur</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Archivo+Black&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta oficial Neuquén optimizada */
+            --cielo: #00A3DD;           /* Celeste bandera */
+            --oro: #D4AF37;             /* Dorado estrellas */
+            --pehuen: #1A4D2E;          /* Verde pehuén oscuro */
+            --rojo-nqn: #C1292E;        /* Rojo bandera */
+            --blanco: #FFFFFF;          /* Blanco puro */
+            --negro: #1A1A1A;           /* Negro para contraste */
+            
+            /* Variantes para UI */
+            --cielo-claro: #E6F7FF;
+            --oro-suave: #F4E5C2;
+            --verde-medio: #2D5F3F;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--cielo);
+            color: var(--blanco);
+            line-height: 1.6;
+        }
+        
+        /* Textura sutil de fondo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(26, 77, 46, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* Header */
+        header {
+            border-bottom: 3px solid var(--oro);
+            padding: 2rem 4rem;
+            position: sticky;
+            top: 0;
+            background: rgba(0, 163, 221, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            box-shadow: 0 3px 20px rgba(212, 175, 55, 0.2);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .site-branding {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .brand-icon {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .brand-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .site-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: -1px;
+            color: var(--blanco);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .site-title span {
+            color: var(--oro);
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        
+        nav a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--oro);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--oro);
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .admin-btn {
+            background: rgba(212, 175, 55, 0.2);
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            border: 1px solid var(--oro);
+            transition: all 0.3s;
+        }
+        
+        .admin-btn:hover {
+            background: var(--oro);
+            color: var(--pehuen) !important;
+        }
+        
+        /* Hero */
+        .hero {
+            position: relative;
+            padding: 6rem 2rem;
+            text-align: center;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero p {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            opacity: 0.95;
+        }
+        
+        /* Main Content */
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        .section-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 2.5rem;
+            color: var(--blanco);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Grid de artículos */
+        .articulos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+        
+        .articulo-card {
+            background: var(--blanco);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .articulo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.3);
+        }
+        
+        .articulo-categoria {
+            background: var(--pehuen);
+            color: var(--blanco);
+            padding: 0.6rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        
+        .articulo-imagen {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+        
+        .articulo-contenido {
+            padding: 1.8rem;
+        }
+        
+        .articulo-titulo {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.4rem;
+            color: var(--negro);
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+        }
+        
+        .articulo-extracto {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+        
+        .articulo-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #777;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        /* Loading y estados */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            font-size: 1.1rem;
+        }
+        
+        .sin-articulos {
+            background: var(--blanco);
+            color: var(--negro);
+            padding: 3rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .sin-articulos a {
+            color: var(--cielo);
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--pehuen);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        footer p {
+            margin: 0.5rem 0;
+        }
+        
+        footer a {
+            color: var(--oro);
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .articulos-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            main {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="site-branding">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="50" height="50" fill="#1A4D2E"/>
+                        <path d="M25 10L15 25L25 40L35 25L25 10Z" fill="#D4AF37"/>
+                        <circle cx="25" cy="25" r="3" fill="#FFFFFF"/>
+                    </svg>
+                </div>
+                <h1 class="site-title">LA <span>FRACTURA</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">inicio</a></li>
+                    <li><a href="/archivo.html">archivo</a></li>
+                    <li><a href="/manifiesto.html">sobre nosotros</a></li>
+                    <li><a href="/admin/" class="admin-btn">admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Fracturando el relato oficial</h1>
+            <p>Periodismo sin concesiones desde el corazón de la Patagonia</p>
+        </div>
+    </section>
+
+    <main>
+        <h2 class="section-title">Últimos artículos</h2>
+        <div id="articulos-grid" class="articulos-grid">
+            <div class="loading">Cargando artículos...</div>
+        </div>
+    </main>
+
+    <footer>
+        <p><strong>La Fractura</strong> · Periodismo desde Neuquén · 2026</p>
+        <p><a href="/manifiesto.html">Conocé nuestro manifiesto</a></p>
+    </footer>
+
+    <script src="/articulos-loader.js"></script>
+</body>
+</html>
