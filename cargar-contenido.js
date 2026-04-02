@@ -10,11 +10,9 @@
 
 // ── CONFIGURACIÓN ─────────────────────────────────────────────────────────────
 const CONFIG = {
-  // Cambiá estos valores por los de tu repositorio
   GITHUB_USER: 'lucagalli01',
-  GITHUB_REPO: 'ejemplo2',
+  GITHUB_REPO: 'lafractura',   // ✅ CORREGIDO: era 'ejemplo2'
   BRANCH: 'main',
-  // URL base de tus imágenes (carpeta /imagenes en el repo)
   IMG_BASE: '/imagenes/',
 };
 
@@ -32,7 +30,10 @@ function parseFrontMatter(raw) {
     const colonIdx = line.indexOf(':');
     if (colonIdx === -1) return;
     const key = line.slice(0, colonIdx).trim();
-    const val = line.slice(colonIdx + 1).trim().replace(/^["']|["']$/g, '');
+    let val = line.slice(colonIdx + 1).trim().replace(/^["']|["']$/g, '');
+    // ✅ CORREGIDO: convertir booleanos YAML a booleanos JS
+    if (val === 'true') val = true;
+    else if (val === 'false') val = false;
     meta[key] = val;
   });
   
@@ -132,7 +133,8 @@ async function renderIndex() {
   const articulos = await fetchCollection('_articulos');
   if (!articulos.length) return;
 
-  const destacado = articulos.find(a => a.destacado === 'true') || articulos[0];
+  // ✅ CORREGIDO: comparar booleano, no string
+  const destacado = articulos.find(a => a.destacado === true) || articulos[0];
   const resto = articulos.filter(a => a !== destacado).slice(0, 5);
 
   // Artículo destacado
@@ -203,7 +205,8 @@ async function renderArticulos() {
   const articulos = await fetchCollection('_articulos');
   if (!articulos.length) return;
 
-  const destacado = articulos.find(a => a.destacado === 'true') || articulos[0];
+  // ✅ CORREGIDO: comparar booleano, no string
+  const destacado = articulos.find(a => a.destacado === true) || articulos[0];
   const resto = articulos.filter(a => a !== destacado);
 
   // Featured
@@ -297,10 +300,6 @@ async function renderColumnistas() {
 
 // ── PÁGINA DE ARTÍCULO INDIVIDUAL ─────────────────────────────────────────────
 
-/**
- * articulo.html?slug=xxx&tipo=articulos
- * Lee el archivo correspondiente y renderiza el artículo completo
- */
 async function renderArticuloSingle() {
   const params = new URLSearchParams(window.location.search);
   const slug = params.get('slug');
