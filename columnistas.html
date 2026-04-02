@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Columnistas — Revista La Fractura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --celeste:#00A3DD; --oro:#D4AF37; --verde:#1A4D2E; --rojo:#C1292E; --blanco:#FFFFFF; --negro:#0D0D0D; --gris-claro:#F4F4F2; --gris:#9A9A9A; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--blanco); color: var(--negro); overflow-x: hidden; }
+  a { text-decoration: none; color: inherit; }
+
+  nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 60px; background: var(--blanco); border-bottom: 2px solid var(--negro); }
+  .logo { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.35rem; letter-spacing: -0.02em; }
+  .logo span { color: var(--rojo); }
+  .nav-links { display: flex; gap: 40px; list-style: none; align-items: center; }
+  .nav-links a { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--rojo); }
+  .nav-links a.active { color: var(--rojo); border-bottom: 2px solid var(--rojo); padding-bottom: 2px; }
+  .btn-socio { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; background: var(--rojo); color: var(--blanco) !important; padding: 9px 18px; border: 2px solid var(--rojo); transition: background 0.2s, color 0.2s; }
+  .btn-socio:hover { background: transparent; color: var(--rojo) !important; }
+  .nav-dropdown { position: relative; }
+  .nav-dropdown > a { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+  .nav-dropdown > a::after { content: '▾'; font-size: 0.8em; }
+  .dropdown-menu { display: none; position: absolute; top: calc(100% + 16px); right: 0; background: var(--blanco); border: 2px solid var(--negro); min-width: 180px; z-index: 200; list-style: none; }
+  .nav-dropdown .dropdown-menu.open { display: block; }
+  .dropdown-menu li a { display: block; padding: 12px 18px; font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--negro); border-bottom: 1px solid #e0e0e0; transition: background 0.15s; }
+  .dropdown-menu li:last-child a { border-bottom: none; }
+  .dropdown-menu li a:hover { background: var(--negro); color: var(--blanco); }
+
+  /* PAGE HEADER */
+  .page-header { background: var(--rojo); padding: 56px 48px; border-bottom: 2px solid var(--negro); position: relative; overflow: hidden; }
+  .page-header::after { content: 'VOCES'; position: absolute; right: -10px; bottom: -40px; font-family: 'Playfair Display', serif; font-size: 14rem; font-weight: 900; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.15); pointer-events: none; line-height: 1; }
+  .ph-label { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
+  .ph-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; color: var(--blanco); letter-spacing: -0.04em; line-height: 0.95; }
+  .ph-title em { font-style: italic; color: var(--oro); }
+  .ph-sub { font-size: 1rem; color: rgba(255,255,255,0.75); margin-top: 16px; max-width: 500px; line-height: 1.6; }
+
+  /* FEATURED AUTHOR */
+  .featured-author { display: grid; grid-template-columns: 400px 1fr; border-bottom: 2px solid var(--negro); min-height: 440px; }
+  .fa-portrait { overflow: hidden; position: relative; background: var(--negro); }
+  .fa-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(20%); transition: filter 0.4s; }
+  .fa-portrait:hover img { filter: grayscale(0); }
+  .fa-portrait-badge { position: absolute; bottom: 0; left: 0; right: 0; background: var(--verde); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .fa-portrait-badge span { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blanco); }
+  .fa-portrait-badge em { color: var(--oro); font-style: normal; }
+  .fa-info { padding: 56px 52px; display: flex; flex-direction: column; justify-content: space-between; }
+  .fa-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--celeste); margin-bottom: 16px; }
+  .fa-name { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 900; line-height: 1; letter-spacing: -0.04em; margin-bottom: 6px; }
+  .fa-role { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gris); margin-bottom: 24px; }
+  .fa-bio { font-size: 0.95rem; color: #444; line-height: 1.75; margin-bottom: 28px; }
+  .fa-stats { display: flex; gap: 32px; }
+  .stat { display: flex; flex-direction: column; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--negro); line-height: 1; }
+  .stat-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gris); margin-top: 4px; }
+  .fa-latest-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--celeste); margin-bottom: 12px; margin-top: 24px; }
+  .fa-articles { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .fa-articles li { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; padding: 8px 0; border-bottom: 1px solid #E8E8E8; }
+  .fa-articles li a:hover { color: var(--rojo); }
+
+  /* AUTHORS GRID */
+  .authors-section { border-bottom: 2px solid var(--negro); }
+  .sec-hdr { display: flex; align-items: baseline; justify-content: space-between; padding: 36px 48px 24px; border-bottom: 2px solid var(--negro); }
+  .sec-hdr h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; letter-spacing: -0.04em; }
+  .authors-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .author-card { border-right: 2px solid var(--negro); border-bottom: 2px solid var(--negro); display: grid; grid-template-columns: 140px 1fr; overflow: hidden; transition: background 0.2s; min-height: 200px; }
+  .author-card:nth-child(3n) { border-right: none; }
+  .author-card:hover { background: var(--gris-claro); }
+  .ac-portrait { overflow: hidden; }
+  .ac-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(30%); transition: filter 0.4s; }
+  .author-card:hover .ac-portrait img { filter: grayscale(0); }
+  .ac-info { padding: 24px 22px; display: flex; flex-direction: column; justify-content: space-between; }
+  .ac-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; line-height: 1.2; margin-bottom: 4px; }
+  .ac-name a:hover { color: var(--rojo); }
+  .ac-role { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris); margin-bottom: 3px; }
+  .ac-city { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--celeste); text-transform: uppercase; margin-bottom: 12px; }
+  .ac-count { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gris); }
+  .ac-count strong { color: var(--negro); }
+  .ac-tag { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; margin-top: 8px; width: fit-content; }
+  .ac-tag.verde { background: var(--verde); color: var(--blanco); }
+  .ac-tag.celeste { background: var(--celeste); color: var(--blanco); }
+  .ac-tag.rojo { background: var(--rojo); color: var(--blanco); }
+  .ac-tag.oro { background: var(--oro); color: var(--negro); }
+
+  /* Newsletter */
+  .nl-full { background: var(--verde); border-top: 2px solid var(--negro); }
+  .nl-content { display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 64px; gap: 56px; }
+  .nl-heading { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 900; color: var(--blanco); line-height: 1.1; letter-spacing: -0.03em; }
+  .nl-heading em { color: var(--oro); font-style: italic; }
+  .nl-form { display: flex; flex-direction: column; gap: 10px; }
+  .nl-form input { padding: 14px 18px; border: 2px solid var(--blanco); background: transparent; color: var(--blanco); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; outline: none; }
+  .nl-form input::placeholder { color: rgba(255,255,255,0.45); }
+  .btn-gold { background: var(--oro); color: var(--negro); border: 2px solid var(--oro); font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 14px; cursor: pointer; transition: all 0.2s; font-weight: 700; }
+  .btn-gold:hover { background: transparent; color: var(--oro); }
+
+  footer { background: var(--negro); color: var(--blanco); padding: 56px 48px 28px; }
+  .footer-top { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px; padding-bottom: 40px; border-bottom: 1px solid #333; margin-bottom: 28px; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 14px; }
+  .footer-logo span { color: var(--rojo); }
+  .footer-desc { font-size: 0.83rem; color: #888; line-height: 1.7; }
+  .footer-nav-title { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--celeste); margin-bottom: 16px; }
+  .footer-nav-list { list-style: none; }
+  .footer-nav-list li { margin-bottom: 8px; }
+  .footer-nav-list a { font-size: 0.88rem; color: #AAA; transition: color 0.2s; }
+  .footer-nav-list a:hover { color: var(--blanco); }
+  .footer-bottom { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: #555; }
+  .footer-bottom a { color: var(--oro); }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .page-header { padding: 40px 24px; } .page-header::after { display: none; }
+    .featured-author { grid-template-columns: 1fr; }
+    .authors-grid { grid-template-columns: 1fr; }
+    .author-card { grid-template-columns: 110px 1fr; }
+    .nl-content { grid-template-columns: 1fr; padding: 40px 24px; }
+    .footer-top { grid-template-columns: 1fr; }
+    .dropdown-menu { right: auto; left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Revista La<span>F</span>ractura</a>
+  <ul class="nav-links">
+    <li><a href="articulos.html">Artículos</a></li>
+    <li><a href="#socio" class="btn-socio">Hacete socio</a></li>
+    <li class="nav-dropdown">
+      <a href="#" class="active">Más</a>
+      <ul class="dropdown-menu">
+        <li><a href="entrevistas.html">Entrevistas</a></li>
+        <li><a href="columnistas.html" class="active">Columnistas</a></li>
+        <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <p class="ph-label">Las voces que construyen La Fractura</p>
+  <h1 class="ph-title">Columnistas &amp; <em>Opinión</em></h1>
+  <p class="ph-sub">Periodistas, artistas e investigadores que piensan la Patagonia sin concesiones.</p>
+</div>
+
+<div class="featured-author">
+  <div class="fa-portrait">
+    <img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/6242afc32e086c0a8d63c35c_author-anne-henry.jpg" alt="Ana Henry">
+    <div class="fa-portrait-badge">
+      <span>Columnista destacada</span>
+      <em>2024</em>
+    </div>
+  </div>
+  <div class="fa-info">
+    <div>
+      <p class="fa-label">Columnista del mes</p>
+      <h2 class="fa-name">Ana Henry</h2>
+      <p class="fa-role">Fotógrafa · Periodista de investigación · Neuquén / NY</p>
+      <p class="fa-bio">Ana Henry es fotógrafa documental y periodista de investigación especializada en derechos humanos y comunidades indígenas de la Patagonia. Su trabajo ha sido publicado en medios internacionales y ha recibido el Premio Ortega y Gasset de Periodismo.</p>
+      <div class="fa-stats">
+        <div class="stat"><span class="stat-num">48</span><span class="stat-label">Artículos</span></div>
+        <div class="stat"><span class="stat-num">12</span><span class="stat-label">Coberturas</span></div>
+        <div class="stat"><span class="stat-num">3</span><span class="stat-label">Premios</span></div>
+      </div>
+    </div>
+    <div>
+      <p class="fa-latest-label">Últimas notas</p>
+      <ul class="fa-articles">
+        <li><a href="articulos.html">La esperanza muere última</a></li>
+        <li><a href="articulos.html">Fotos que el poder prefiere no ver</a></li>
+        <li><a href="articulos.html">Mapuches en resistencia: archivo vivo</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<section class="authors-section">
+  <div class="sec-hdr"><h2>Todas las voces</h2></div>
+  <div class="authors-grid" id="authors-grid"></div>
+</section>
+
+
+<footer>
+  <div class="footer-top">
+    <div><p class="footer-logo">Revista La<span>F</span>ractura</p><p class="footer-desc">Medio de comunicación independiente de la Patagonia.</p></div>
+    <div>
+      <p class="footer-nav-title">Secciones</p>
+      <ul class="footer-nav-list">
+        <li><a href="articulos.html">Artículos</a></li>
+        <li><a href="entrevistas.html">Entrevistas</a></li>
+        <li><a href="columnistas.html">Columnistas</a></li>
+        <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Revista La Fractura — Neuquén, Patagonia</span>
+  </div>
+</footer>
+<script>
+  document.querySelectorAll('.nav-dropdown').forEach(function(dropdown) {
+    var closeTimer;
+    dropdown.addEventListener('mouseenter', function() {
+      clearTimeout(closeTimer);
+      dropdown.querySelector('.dropdown-menu').classList.add('open');
+    });
+    dropdown.addEventListener('mouseleave', function() {
+      closeTimer = setTimeout(function() {
+        dropdown.querySelector('.dropdown-menu').classList.remove('open');
+      }, 200);
+    });
+  });
+</script>
+<script src="cargar-contenido.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "imagenes"
+public_folder: "/imagenes"
+
+publish_mode: editorial_workflow     # permite borradores antes de publicar
+
+locale: "es"
+
+collections:
+
+  # ── ARTÍCULOS ──────────────────────────────────────────────
+  - name: "articulos"
+    label: "Artículos"
+    label_singular: "Artículo"
+    folder: "_articulos"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "articulos.html"
+    fields:
+      - { label: "Título", name: "titulo", widget: "string" }
+      - { label: "Bajada / Descripción", name: "bajada", widget: "text" }
+      - { label: "Autor/a", name: "autor", widget: "string" }
+      - label: "Categoría"
+        name: "categoria"
+        widget: "select"
+        options:
+          - { label: "Política", value: "politica" }
+          - { label: "Cultura", value: "cultura" }
+          - { label: "Investigación", value: "investigacion" }
+          - { label: "Sociedad", value: "sociedad" }
+          - { label: "Arte Callejero", value: "arte" }
+          - { label: "Festival", value: "festival" }
+          - { label: "Economía", value: "economia" }
+          - { label: "Medio Ambiente", value: "ambiente" }
+      - { label: "Imagen de portada", name: "imagen", widget: "image", required: false }
+      - { label: "Fecha de publicación", name: "fecha", widget: "datetime", format: "DD MMM, YYYY", date_format: "DD MMM, YYYY", time_format: false }
+      - { label: "Tiempo de lectura (ej: 10 min)", name: "lectura", widget: "string", default: "5 min" }
+      - label: "Destacado en portada"
+        name: "destacado"
+        widget: "boolean"
+        default: false
+        hint: "Si lo activás, este artículo aparece en el lugar principal de la portada"
+      - { label: "Contenido", name: "body", widget: "markdown" }
+
+  # ── ENTREVISTAS ────────────────────────────────────────────
+  - name: "entrevistas"
+    label: "Entrevistas"
+    label_singular: "Entrevista"
+    folder: "_entrevistas"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Título", name: "titulo", widget: "string" }
+      - { label: "Bajada", name: "bajada", widget: "text" }
+      - { label: "Entrevistado/a", name: "entrevistado", widget: "string" }
+      - { label: "Realizada por", name: "autor", widget: "string" }
+      - { label: "Imagen", name: "imagen", widget: "image", required: false }
+      - { label: "Fecha", name: "fecha", widget: "datetime", format: "DD MMM, YYYY", date_format: "DD MMM, YYYY", time_format: false }
+      - { label: "Tiempo de lectura", name: "lectura", widget: "string", default: "10 min" }
+      - { label: "Contenido", name: "body", widget: "markdown" }
+
+  # ── COLUMNAS ───────────────────────────────────────────────
+  - name: "columnas"
+    label: "Columnas de Opinión"
+    label_singular: "Columna"
+    folder: "_columnas"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Título", name: "titulo", widget: "string" }
+      - { label: "Bajada", name: "bajada", widget: "text" }
+      - { label: "Columnista", name: "autor", widget: "string" }
+      - { label: "Imagen del columnista", name: "imagen_autor", widget: "image", required: false }
+      - { label: "Fecha", name: "fecha", widget: "datetime", format: "DD MMM, YYYY", date_format: "DD MMM, YYYY", time_format: false }
+      - { label: "Contenido", name: "body", widget: "markdown" }
+
+  # ── COLUMNISTAS (perfiles) ─────────────────────────────────
+  - name: "columnistas"
+    label: "Perfiles de Columnistas"
+    label_singular: "Columnista"
+    folder: "_columnistas"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Nombre", name: "nombre", widget: "string" }
+      - { label: "Foto", name: "foto", widget: "image", required: false }
+      - { label: "Descripción / Bio", name: "bio", widget: "text" }
+      - label: "Especialidad"
+        name: "especialidad"
+        widget: "select"
+        options:
+          - "Política"
+          - "Economía"
+          - "Cultura"
+          - "Medio Ambiente"
+          - "Derechos Humanos"
+          - "Género"
+          - "Internacional"

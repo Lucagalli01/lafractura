@@ -1,792 +1,799 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LA FRACTURA · Pensando desde el sur</title>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Archivo+Black&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* Paleta oficial Neuquén optimizada */
-            --cielo: #00A3DD;           /* Celeste bandera */
-            --oro: #D4AF37;             /* Dorado estrellas */
-            --pehuen: #1A4D2E;          /* Verde pehuén oscuro */
-            --rojo-nqn: #C1292E;        /* Rojo bandera */
-            --blanco: #FFFFFF;          /* Blanco puro */
-            --negro: #1A1A1A;           /* Negro para contraste */
-            
-            /* Variantes para UI */
-            --cielo-claro: #E6F7FF;
-            --oro-suave: #F4E5C2;
-            --verde-medio: #2D5F3F;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'IBM Plex Mono', monospace;
-            background: var(--cielo);
-            color: var(--blanco);
-            line-height: 1.6;
-        }
-        
-        /* Textura sutil de fondo */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(26, 77, 46, 0.06) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        /* Header */
-        header {
-            border-bottom: 3px solid var(--oro);
-            padding: 2rem 4rem;
-            position: sticky;
-            top: 0;
-            background: rgba(0, 163, 221, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            box-shadow: 0 3px 20px rgba(212, 175, 55, 0.2);
-        }
-        
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .site-branding {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .brand-icon {
-            width: 50px;
-            height: 50px;
-        }
-        
-        .brand-icon svg {
-            width: 100%;
-            height: 100%;
-        }
-        
-        .site-title {
-            font-family: 'Archivo Black', sans-serif;
-            font-size: 1.8rem;
-            letter-spacing: -1px;
-            color: var(--blanco);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        
-        .site-title span {
-            color: var(--oro);
-        }
-        
-        nav ul {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-        
-        nav a {
-            color: var(--blanco);
-            text-decoration: none;
-            font-size: 0.9rem;
-            text-transform: lowercase;
-            letter-spacing: 0.5px;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--oro);
-            transition: width 0.3s ease;
-        }
-        
-        nav a:hover {
-            color: var(--oro);
-        }
-        
-        nav a:hover::after {
-            width: 100%;
-        }
-        
-        /* Hero */
-        .hero {
-            padding: 8rem 4rem;
-            max-width: 1100px;
-            margin: 0 auto;
-            border-bottom: 2px solid var(--oro);
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 5%;
-            width: 200px;
-            height: 150px;
-            background: linear-gradient(135deg, transparent 50%, rgba(212, 175, 55, 0.15) 50%);
-            z-index: -1;
-        }
-        
-        .hero h1 {
-            font-family: 'Libre Baskerville', serif;
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            line-height: 1.15;
-            margin-bottom: 2rem;
-            letter-spacing: -2px;
-            color: var(--blanco);
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
-        }
-        
-        .hero h1 span {
-            color: var(--oro);
-            font-style: italic;
-            display: inline-block;
-        }
-        
-        .hero p {
-            font-size: 1.15rem;
-            color: var(--blanco);
-            max-width: 650px;
-            line-height: 1.9;
-            font-family: 'Libre Baskerville', serif;
-            font-weight: 400;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Accent bar */
-        .accent-bar {
-            height: 4px;
-            background: linear-gradient(90deg, 
-                var(--oro) 0%, 
-                var(--rojo-nqn) 50%, 
-                var(--pehuen) 100%
-            );
-            margin: 4rem 0;
-        }
-        
-        /* Articles */
-        .articles {
-            padding: 4rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 3rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--oro);
-        }
-        
-        .section-header h2 {
-            font-family: 'Archivo Black', sans-serif;
-            font-size: 1.8rem;
-            letter-spacing: -1px;
-            color: var(--blanco);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-        }
-        
-        .view-all {
-            font-size: 0.85rem;
-            color: var(--oro);
-            text-decoration: none;
-            text-transform: lowercase;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-        
-        .view-all:hover {
-            color: var(--blanco);
-        }
-        
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 3rem;
-        }
-        
-        .article-card {
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: var(--blanco);
-            border-radius: 3px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-            border-top: 4px solid var(--oro);
-        }
-        
-        .article-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.3);
-            border-top-color: var(--rojo-nqn);
-        }
-        
-        .article-image {
-            width: 100%;
-            aspect-ratio: 16/10;
-            background: linear-gradient(135deg, var(--cielo), var(--pehuen));
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .article-image::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, transparent 50%, rgba(255,255,255,0.9) 100%);
-        }
-        
-        .article-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: saturate(0.9) brightness(1.05);
-            transition: transform 0.5s ease;
-        }
-        
-        .article-card:hover .article-image img {
-            transform: scale(1.08);
-        }
-        
-        .article-content {
-            padding: 0 1.5rem 1.5rem;
-        }
-        
-        .article-tag {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--rojo-nqn);
-            margin-bottom: 0.8rem;
-            font-weight: 700;
-        }
-        
-        .article-title {
-            font-family: 'Libre Baskerville', serif;
-            font-size: 1.5rem;
-            line-height: 1.3;
-            margin-bottom: 1rem;
-            letter-spacing: -0.3px;
-            color: var(--negro);
-            font-weight: 700;
-        }
-        
-        .article-excerpt {
-            font-size: 0.95rem;
-            color: #4A5568;
-            line-height: 1.8;
-            margin-bottom: 1.2rem;
-            font-family: 'Libre Baskerville', serif;
-        }
-        
-        .article-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            color: #4A5568;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-        }
-        
-        .lock-icon {
-            color: var(--rojo-nqn);
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        
-        /* Featured article */
-        .featured {
-            margin: 4rem;
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-            background: var(--blanco);
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
-            position: relative;
-            z-index: 1;
-            border-top: 6px solid var(--oro);
-        }
-        
-        .featured-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-            align-items: center;
-        }
-        
-        .featured-image {
-            width: 100%;
-            height: 100%;
-            min-height: 400px;
-            background: linear-gradient(135deg, var(--cielo), var(--pehuen));
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .featured-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: saturate(0.85) brightness(1.1);
-        }
-        
-        .featured-text {
-            padding: 4rem;
-            background: var(--blanco);
-        }
-        
-        .featured-text .article-tag {
-            color: var(--rojo-nqn);
-            font-size: 0.75rem;
-        }
-        
-        .featured-text h2 {
-            font-family: 'Libre Baskerville', serif;
-            font-size: clamp(1.8rem, 3.5vw, 3rem);
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
-            color: var(--negro);
-            font-weight: 700;
-        }
-        
-        .featured-text p {
-            font-size: 1.05rem;
-            color: #4A5568;
-            line-height: 1.9;
-            margin-bottom: 1.5rem;
-            font-family: 'Libre Baskerville', serif;
-        }
-        
-        .read-more {
-            display: inline-block;
-            padding: 0.9rem 2.5rem;
-            background: var(--oro);
-            color: var(--negro);
-            text-decoration: none;
-            text-transform: lowercase;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            font-weight: 700;
-            box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
-        }
-        
-        .read-more:hover {
-            background: var(--rojo-nqn);
-            color: var(--blanco);
-            transform: translateX(3px);
-        }
-        
-        /* Newsletter */
-        .newsletter {
-            background: linear-gradient(135deg, 
-                var(--pehuen) 0%, 
-                var(--cielo) 100%
-            );
-            padding: 6rem 4rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* Estrellas decorativas */
-        .newsletter::before {
-            content: '★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★';
-            position: absolute;
-            top: 2rem;
-            left: 0;
-            right: 0;
-            font-size: 1.5rem;
-            color: var(--oro);
-            opacity: 0.3;
-            letter-spacing: 2rem;
-        }
-        
-        .newsletter h2 {
-            font-family: 'Archivo Black', sans-serif;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
-            color: var(--blanco);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        
-        .newsletter p {
-            color: var(--blanco);
-            font-size: 1.05rem;
-            margin-bottom: 2.5rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            font-family: 'Libre Baskerville', serif;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
-        }
-        
-        .newsletter-form {
-            display: flex;
-            max-width: 550px;
-            margin: 0 auto;
-            gap: 0;
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
-        }
-        
-        .newsletter-form input {
-            flex: 1;
-            padding: 1.2rem 1.5rem;
-            background: var(--blanco);
-            border: none;
-            color: var(--negro);
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.95rem;
-        }
-        
-        .newsletter-form input:focus {
-            outline: none;
-            box-shadow: inset 0 0 0 2px var(--oro);
-        }
-        
-        .newsletter-form input::placeholder {
-            color: #4A5568;
-            opacity: 0.6;
-        }
-        
-        .newsletter-form button {
-            padding: 1.2rem 2.5rem;
-            background: var(--oro);
-            border: none;
-            color: var(--negro);
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.95rem;
-            cursor: pointer;
-            text-transform: lowercase;
-            transition: all 0.3s ease;
-            font-weight: 700;
-        }
-        
-        .newsletter-form button:hover {
-            background: var(--rojo-nqn);
-            color: var(--blanco);
-        }
-        
-        /* Footer */
-        footer {
-            padding: 4rem;
-            border-top: 3px solid var(--oro);
-            background: rgba(0, 163, 221, 0.95);
-        }
-        
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .footer-links {
-            display: flex;
-            gap: 2rem;
-        }
-        
-        .footer-links a {
-            color: var(--blanco);
-            text-decoration: none;
-            font-size: 0.85rem;
-            text-transform: lowercase;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-links a:hover {
-            color: var(--oro);
-        }
-        
-        .copyright {
-            color: var(--blanco);
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            header,
-            .hero,
-            .articles,
-            .featured,
-            .newsletter,
-            footer {
-                padding-left: 2rem;
-                padding-right: 2rem;
-            }
-            
-            nav ul {
-                gap: 1.5rem;
-                font-size: 0.8rem;
-            }
-            
-            .articles-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .featured-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .newsletter-form {
-                flex-direction: column;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-                gap: 2rem;
-                text-align: center;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revista La Fractura</title>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --celeste: #00A3DD;
+    --oro: #D4AF37;
+    --verde: #1A4D2E;
+    --rojo: #C1292E;
+    --blanco: #FFFFFF;
+    --negro: #0D0D0D;
+    --gris-claro: #F4F4F2;
+    --gris: #9A9A9A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--blanco);
+    color: var(--negro);
+    overflow-x: hidden;
+  }
+
+  a { text-decoration: none; color: inherit; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 60px;
+    background: var(--blanco);
+    border-bottom: 2px solid var(--negro);
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
+    color: var(--negro);
+  }
+  .logo span { color: var(--rojo); }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+    align-items: center;
+  }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--negro);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--rojo); }
+  .nav-links a.active { color: var(--rojo); border-bottom: 2px solid var(--rojo); padding-bottom: 2px; }
+
+  /* Dropdown menu */
+  .nav-dropdown {
+    position: relative;
+  }
+  .nav-dropdown > a {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+  }
+  .nav-dropdown > a::after {
+    content: '▾';
+    font-size: 0.8em;
+  }
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 16px);
+    right: 0;
+    background: var(--blanco);
+    border: 2px solid var(--negro);
+    min-width: 180px;
+    z-index: 200;
+    list-style: none;
+  }
+  .nav-dropdown .dropdown-menu { display: none; }
+  .nav-dropdown .dropdown-menu.open { display: block; }
+  .dropdown-menu li a {
+    display: block;
+    padding: 12px 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--negro);
+    border-bottom: 1px solid #e0e0e0;
+    transition: background 0.15s, color 0.15s;
+  }
+  .dropdown-menu li:last-child a { border-bottom: none; }
+  .dropdown-menu li a:hover { background: var(--negro); color: var(--blanco); }
+
+  /* Hacete socio button */
+  .btn-socio {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--rojo);
+    color: var(--blanco) !important;
+    padding: 9px 18px;
+    border: 2px solid var(--rojo);
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-socio:hover { background: transparent; color: var(--rojo) !important; }
+
+  /* ── HERO DIAGONAL ── */
+  .hero {
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 2px solid var(--negro);
+  }
+
+  .hero-left { display: none; }
+
+  .hero-right {
+    position: absolute;
+    inset: 0;
+    background: var(--celeste);
+    clip-path: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 80px;
+    z-index: 1;
+  }
+
+  .hero-right-img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-right-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.18;
+    mix-blend-mode: multiply;
+  }
+
+  .hero-news {
+    position: relative;
+    z-index: 2;
+    max-width: 380px;
+    text-align: right;
+  }
+
+  .hero-news-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--negro);
+    background: var(--oro);
+    display: inline-block;
+    padding: 4px 12px;
+    margin-bottom: 14px;
+  }
+
+  .hero-news-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.7rem);
+    font-weight: 700;
+    color: var(--blanco);
+    line-height: 1.2;
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-news-title a:hover { color: var(--oro); }
+
+  .hero-news-excerpt {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.55;
+    margin-bottom: 16px;
+  }
+
+  .hero-news-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+
+  /* ── MAIN GRID ── */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    border-bottom: 2px solid var(--negro);
+  }
+
+  .articles-area { border-right: 2px solid var(--negro); }
+
+  /* ── FEATURED ── */
+  .featured-article {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 2px solid var(--negro);
+    min-height: 340px;
+  }
+
+  .featured-img { overflow: hidden; }
+  .featured-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s;
+  }
+  .featured-img:hover img { transform: scale(1.04); }
+
+  .featured-info {
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--gris-claro);
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--celeste);
+    color: var(--blanco);
+    padding: 4px 10px;
+    margin-bottom: 16px;
+    width: fit-content;
+  }
+  .tag.verde { background: var(--verde); }
+  .tag.rojo { background: var(--rojo); }
+  .tag.oro { background: var(--oro); color: var(--negro); }
+
+  .featured-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .featured-title a:hover { color: var(--rojo); }
+
+  .article-excerpt {
+    font-size: 0.87rem;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .article-meta {
+    display: flex;
+    gap: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    color: var(--gris);
+    text-transform: uppercase;
+  }
+  .article-meta span { display: flex; flex-direction: column; gap: 3px; }
+  .article-meta strong { color: var(--negro); font-size: 0.72rem; }
+
+  /* ── ARTICLES GRID (cuadros en lugar de franjas) ── */
+  .articles-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .article-card {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid var(--negro);
+    border-right: 2px solid var(--negro);
+    overflow: hidden;
+  }
+
+  .article-card:nth-child(2n) { border-right: none; }
+  .article-card:nth-last-child(-n+2):nth-child(2n+1),
+  .article-card:nth-last-child(-n+2):nth-child(2n+1) ~ .article-card {
+    border-bottom: none;
+  }
+
+  .card-img { overflow: hidden; width: 100%; aspect-ratio: 16/10; }
+  .card-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s;
+  }
+  .article-card:hover .card-img img { transform: scale(1.05); }
+
+  .card-info {
+    padding: 20px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 8px 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .card-title a:hover { color: var(--rojo); }
+
+  .card-excerpt {
+    font-size: 0.82rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar { padding: 36px 28px; }
+  .sidebar-section { margin-bottom: 44px; }
+
+  .sidebar-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--celeste);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sidebar-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--celeste);
+    opacity: 0.3;
+  }
+
+  .sidebar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .magazine-cover img {
+    width: 100%;
+    border: 2px solid var(--negro);
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  .btn {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 11px 22px;
+    border: 2px solid var(--negro);
+    background: var(--negro);
+    color: var(--blanco);
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    text-align: center;
+  }
+  .btn:hover { background: var(--rojo); border-color: var(--rojo); }
+
+  /* ── POPULAR ── */
+  .popular-list { list-style: none; }
+  .popular-item {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 14px 0;
+    border-bottom: 1px solid #E8E8E8;
+  }
+  .popular-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: transparent;
+    line-height: 1;
+    -webkit-text-stroke: 1px #CCC;
+  }
+  .popular-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 5px;
+  }
+  .popular-author {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--gris);
+    text-transform: uppercase;
+  }
+
+  .newsletter-form input[type="email"] {
+    width: 100%;
+    padding: 11px 14px;
+    border: 2px solid var(--negro);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    margin-bottom: 10px;
+    outline: none;
+  }
+  .newsletter-form input:focus { border-color: var(--celeste); }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 40px 48px 28px;
+    border-bottom: 2px solid var(--negro);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+  }
+  .see-all {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rojo);
+    border-bottom: 1px solid var(--rojo);
+    padding-bottom: 2px;
+  }
+  .see-all:hover { color: var(--negro); border-color: var(--negro); }
+
+  /* ── PODCASTS ── */
+  .podcasts-section { border-top: 2px solid var(--negro); }
+  .podcasts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 2px solid var(--negro);
+  }
+  .podcast-card { border-right: 2px solid var(--negro); overflow: hidden; }
+  .podcast-card:last-child { border-right: none; }
+
+  .podcast-img { width: 100%; aspect-ratio: 1; overflow: hidden; position: relative; }
+  .podcast-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+  .podcast-card:hover .podcast-img img { transform: scale(1.04); }
+
+  .podcast-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,163,221,0.65), transparent);
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .podcast-card:hover .podcast-overlay { opacity: 1; }
+  .play-btn {
+    width: 44px; height: 44px;
+    background: var(--blanco);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--rojo);
+    padding-left: 3px;
+  }
+
+  .podcast-info { padding: 20px; }
+  .podcast-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  .podcast-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gris);
+    display: flex;
+    gap: 16px;
+  }
+
+  /* ── NEWSLETTER FULL ── */
+  .newsletter-full {
+    background: var(--verde);
+    border-top: 2px solid var(--negro);
+  }
+  .newsletter-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 64px;
+    gap: 56px;
+  }
+  .newsletter-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 900;
+    color: var(--blanco);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+  .newsletter-heading em { color: var(--oro); font-style: italic; }
+  .newsletter-full-form { display: flex; flex-direction: column; gap: 10px; }
+  .newsletter-full-form input {
+    padding: 14px 18px;
+    border: 2px solid var(--blanco);
+    background: transparent;
+    color: var(--blanco);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+  }
+  .newsletter-full-form input::placeholder { color: rgba(255,255,255,0.45); }
+  .newsletter-full-form input:focus { border-color: var(--oro); }
+  .btn-gold {
+    background: var(--oro);
+    color: var(--negro);
+    border: 2px solid var(--oro);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 700;
+  }
+  .btn-gold:hover { background: transparent; color: var(--oro); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--negro);
+    color: var(--blanco);
+    padding: 56px 48px 28px;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #333;
+    margin-bottom: 28px;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin-bottom: 14px;
+  }
+  .footer-logo span { color: var(--rojo); }
+  .footer-desc { font-size: 0.83rem; color: #888; line-height: 1.7; }
+  .footer-nav-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--celeste);
+    margin-bottom: 16px;
+  }
+  .footer-nav-list { list-style: none; }
+  .footer-nav-list li { margin-bottom: 8px; }
+  .footer-nav-list a { font-size: 0.88rem; color: #AAA; transition: color 0.2s; }
+  .footer-nav-list a:hover { color: var(--blanco); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #555;
+  }
+  .footer-bottom a { color: var(--oro); }
+
+  @media (max-width: 900px) {
+    .hero-left { clip-path: polygon(0 0, 100% 0, 100% 48%, 0 52%); padding: 32px; align-items: flex-start; }
+    .hero-right { clip-path: polygon(0 48%, 100% 44%, 100% 100%, 0 100%); padding: 32px; align-items: flex-end; justify-content: flex-start; }
+    .hero { height: 420px; }
+    .main-grid { grid-template-columns: 1fr; }
+    .featured-article { grid-template-columns: 1fr; }
+    .articles-list { grid-template-columns: 1fr; }
+    .article-card { border-right: none; }
+    .podcasts-grid { grid-template-columns: 1fr; }
+    .newsletter-content { grid-template-columns: 1fr; padding: 40px 32px; }
+    .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    nav { padding: 0 24px; }
+    .section-header { padding: 28px 24px 20px; }
+    .sidebar { padding: 28px 20px; }
+    .dropdown-menu { right: auto; left: 0; }
+  }
+</style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="header-content">
-            <div class="site-branding">
-                <div class="brand-icon">
-                    <!-- Pehuén con colores oficiales -->
-                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M25 5 L25 45" stroke="#1A4D2E" stroke-width="2.5"/>
-                        <path d="M15 15 L35 15" stroke="#1A4D2E" stroke-width="2"/>
-                        <path d="M12 22 L38 22" stroke="#1A4D2E" stroke-width="2"/>
-                        <path d="M10 29 L40 29" stroke="#1A4D2E" stroke-width="2"/>
-                        <path d="M12 36 L38 36" stroke="#1A4D2E" stroke-width="2"/>
-                        <circle cx="25" cy="12" r="3" fill="#D4AF37"/>
-                        <circle cx="25" cy="43" r="2" fill="#C1292E"/>
-                    </svg>
-                </div>
-                <h1 class="site-title">LA <span>FRACTURA</span></h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">inicio</a></li>
-                    <li><a href="archivo.html">archivo</a></li>
-                    <li><a href="manifiesto.html">manifiesto</a></li>
-                    <li><a href="#subscribe">suscribirse</a></li>
-                </ul>
-            </nav>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">Revista La<span>F</span>ractura</a>
+  <ul class="nav-links">
+    <li><a href="articulos.html" class="active">Artículos</a></li>
+    <li><a href="#socio" class="btn-socio">Hacete socio</a></li>
+    <li class="nav-dropdown">
+      <a href="#">Más</a>
+      <ul class="dropdown-menu">
+        <li><a href="entrevistas.html">Entrevistas</a></li>
+        <li><a href="columnistas.html">Columnistas</a></li>
+        <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+<!-- MAIN GRID -->
+<section class="main-grid">
+  <div class="articles-area">
+
+    <article class="featured-article" id="featured-article">
+      <a class="featured-img" href="#">
+        <img src="https://i.imgur.com/BMboB8Z.png" alt="">
+      </a>
+      <div class="featured-info">
+        <div>
+          <span class="tag rojo">Arte Callejero</span>
+          <h2 class="featured-title"><a href="#">Cargando...</a></h2>
+          <p class="article-excerpt"></p>
         </div>
-    </header>
-    
-    <!-- Hero Statement -->
-    <section class="hero">
-        <h1>
-            Contamos las historias que <span>la cordillera</span> tiene para decir
-        </h1>
-        <p>
-            Desde el volcán Lanín hasta la confluencia de los ríos. Periodismo que no busca complacer, 
-            sino entender la complejidad de nuestro territorio y su gente.
-        </p>
-    </section>
-    
-    <div class="accent-bar"></div>
-    
-    <!-- Featured Article -->
-    <section class="featured">
-        <div class="featured-content">
-            <div class="featured-image">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300A3DD;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%231A4D2E;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23grad)' width='800' height='600'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-size='28' fill='%23D4AF37' font-weight='bold'%3ECONFLUENCIA%3C/text%3E%3C/svg%3E" alt="Featured">
-            </div>
-            <div class="featured-text">
-                <div class="article-tag">TERRITORIO</div>
-                <h2>El agua que nos une y nos divide</h2>
-                <p>
-                    Los ríos Neuquén y Limay no son solo geografía. Son política, economía, historia viva. 
-                    Una investigación sobre cómo el agua moldea el destino de nuestra provincia.
-                </p>
-                <p>
-                    Desde las nacientes en la cordillera hasta la confluencia que da vida a ciudades enteras, 
-                    el agua es poder. Y el poder siempre tiene dueños.
-                </p>
-                <a href="articulo-agua.html" class="read-more">leer artículo completo →</a>
-            </div>
+        <div class="article-meta"></div>
+      </div>
+    </article>
+
+    <ul class="articles-list" id="articles-list">
+      <li class="article-card">
+        <a class="card-img" href="articulos.html"><img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/62421328c5b7f8e6af0c9861_post-hope-dies-last-thumbnail.jpg" alt=""></a>
+        <div class="card-info">
+          <span class="tag verde">Política</span>
+          <h3 class="card-title"><a href="articulos.html">La esperanza muere última</a></h3>
+          <p class="card-excerpt">Movimientos sociales que resisten el ajuste y redefinen la participación ciudadana en la provincia.</p>
+          <div class="article-meta">
+            <span><strong>Ana Henry</strong></span><span><strong>28 mar, 2024</strong></span><span><strong>10 min</strong></span>
+          </div>
         </div>
-    </section>
-    
-    <!-- Articles Grid -->
-    <section class="articles" id="inicio">
-        <div class="section-header">
-            <h2>últimas publicaciones</h2>
-            <a href="archivo.html" class="view-all">ver todo →</a>
+      </li>
+      <li class="article-card">
+        <a class="card-img" href="articulos.html"><img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/62421349a1ecba694e0d8da3_post-the-best-art-museums-thumbnail.jpg" alt=""></a>
+        <div class="card-info">
+          <span class="tag">Cultura</span>
+          <h3 class="card-title"><a href="articulos.html">Los mejores espacios culturales del Neuquén</a></h3>
+          <p class="card-excerpt">Una guía por museos y centros comunitarios que hacen del arte un derecho en la región patagónica.</p>
+          <div class="article-meta">
+            <span><strong>Luisa Jensen</strong></span><span><strong>28 mar, 2024</strong></span><span><strong>10 min</strong></span>
+          </div>
         </div>
-        
-        <div class="articles-grid">
-            <article class="article-card">
-                <div class="article-image">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300A3DD;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%231A4D2E;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g1)' width='600' height='400'/%3E%3C/svg%3E" alt="Article">
-                </div>
-                <div class="article-content">
-                    <div class="article-tag">ENERGÍA</div>
-                    <h3 class="article-title">Vaca Muerta: más allá del petróleo</h3>
-                    <p class="article-excerpt">
-                        La formación no convencional más grande de Argentina está en Neuquén. Pero el desarrollo 
-                        extractivo tiene costos que nadie está contando. Una mirada crítica al modelo energético.
-                    </p>
-                    <div class="article-meta">
-                        <span>hace 2 días</span>
-                        <span class="lock-icon">🔒 suscriptores</span>
-                    </div>
-                </div>
-            </article>
-            
-            <article class="article-card">
-                <div class="article-image">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23D4AF37;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23C1292E;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g2)' width='600' height='400'/%3E%3C/svg%3E" alt="Article">
-                </div>
-                <div class="article-content">
-                    <div class="article-tag">PUEBLOS ORIGINARIOS</div>
-                    <h3 class="article-title">La lucha por el territorio mapuche</h3>
-                    <p class="article-excerpt">
-                        Neuquén es tierra de encuentro, dice el himno. Pero el encuentro histórico fue violento. 
-                        Hoy, las comunidades mapuche reclaman lo que nunca debió ser arrebatado.
-                    </p>
-                    <div class="article-meta">
-                        <span>hace 5 días</span>
-                        <span>lectura pública</span>
-                    </div>
-                </div>
-            </article>
-            
-            <article class="article-card">
-                <div class="article-image">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231A4D2E;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2300A3DD;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g3)' width='600' height='400'/%3E%3C/svg%3E" alt="Article">
-                </div>
-                <div class="article-content">
-                    <div class="article-tag">AMBIENTE</div>
-                    <h3 class="article-title">Los incendios que nadie quiere nombrar</h3>
-                    <p class="article-excerpt">
-                        La Patagonia arde cada verano. Pero el fuego tiene causas y tiene responsables. 
-                        Una investigación sobre el negocio inmobiliario detrás de las llamas.
-                    </p>
-                    <div class="article-meta">
-                        <span>hace 1 semana</span>
-                        <span class="lock-icon">🔒 suscriptores</span>
-                    </div>
-                </div>
-            </article>
-            
-            <article class="article-card">
-                <div class="article-image">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g4' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23C1292E;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2300A3DD;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g4)' width='600' height='400'/%3E%3C/svg%3E" alt="Article">
-                </div>
-                <div class="article-content">
-                    <div class="article-tag">POLÍTICA</div>
-                    <h3 class="article-title">El modelo neuquino en crisis</h3>
-                    <p class="article-excerpt">
-                        Décadas de hegemonía política construyeron un modelo particular. Ahora ese modelo 
-                        se enfrenta a sus propias contradicciones. Análisis de un sistema en transición.
-                    </p>
-                    <div class="article-meta">
-                        <span>hace 2 semanas</span>
-                        <span>lectura pública</span>
-                    </div>
-                </div>
-            </article>
-            
-            <article class="article-card">
-                <div class="article-image">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g5' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23D4AF37;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%231A4D2E;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g5)' width='600' height='400'/%3E%3C/svg%3E" alt="Article">
-                </div>
-                <div class="article-content">
-                    <div class="article-tag">ECONOMÍA</div>
-                    <h3 class="article-title">Turismo: ¿desarrollo o gentrificación?</h3>
-                    <p class="article-excerpt">
-                        Villa La Angostura, San Martín de los Andes, Copahue. El turismo trae divisas, 
-                        pero también expulsa a los locales. Sobre el precio del paraíso patagónico.
-                    </p>
-                    <div class="article-meta">
-                        <span>hace 3 semanas</span>
-                        <span class="lock-icon">🔒 suscriptores</span>
-                    </div>
-                </div>
-            </article>
-            
-            <article class="article-card">
-                <div class="article-image">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g6' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300A3DD;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23C1292E;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g6)' width='600' height='400'/%3E%3C/svg%3E" alt="Article">
-                </div>
-                <div class="article-content">
-                    <div class="article-tag">CULTURA</div>
-                    <h3 class="article-title">El pehuén como símbolo de resistencia</h3>
-                    <p class="article-excerpt">
-                        La araucaria es más que un árbol en la bandera. Es memoria viva, alimento sagrado, 
-                        símbolo de identidad. Una crónica sobre el árbol que define a Neuquén.
-                    </p>
-                    <div class="article-meta">
-                        <span>hace 1 mes</span>
-                        <span>lectura pública</span>
-                    </div>
-                </div>
-            </article>
+      </li>
+      <li class="article-card">
+        <a class="card-img" href="articulos.html"><img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/6242135e265c5a3978844d8d_post-the-devil-is-in-the-details-thumbnail.jpg" alt=""></a>
+        <div class="card-info">
+          <span class="tag rojo">Investigación</span>
+          <h3 class="card-title"><a href="articulos.html">El diablo está en los detalles</a></h3>
+          <p class="card-excerpt">Los contratos petroleros en Vaca Muerta esconden cláusulas que favorecen a las corporaciones energéticas.</p>
+          <div class="article-meta">
+            <span><strong>Jana Cooper</strong></span><span><strong>28 mar, 2024</strong></span><span><strong>35 min</strong></span>
+          </div>
         </div>
-    </section>
-    
-    <!-- Newsletter -->
-    <section class="newsletter" id="subscribe">
-        <h2>Suscribite a la verdad patagónica</h2>
-        <p>
-            Recibí análisis profundo sobre Neuquén y la región. Historias que importan, 
-            contadas sin concesiones ni editoriales corporativas.
-        </p>
-        <form class="newsletter-form">
-            <input type="email" placeholder="tu.email@ejemplo.com" required>
-            <button type="submit">suscribirme</button>
-        </form>
-    </section>
-    
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="manifiesto.html">manifiesto</a>
-                <a href="archivo.html">archivo completo</a>
-                <a href="#contacto">contacto</a>
-                <a href="#rss">rss</a>
-            </div>
-            <p class="copyright">© 2026 la fractura · pensando desde el sur</p>
+      </li>
+      <li class="article-card">
+        <a class="card-img" href="articulos.html"><img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/62421377e718b85e561eb9b2_post-an-indestructible-hope-thumbnail.jpg" alt=""></a>
+        <div class="card-info">
+          <span class="tag verde">Sociedad</span>
+          <h3 class="card-title"><a href="articulos.html">Una esperanza indestructible</a></h3>
+          <p class="card-excerpt">Comunidades mapuches que construyen autonomía en territorios amenazados por el extractivismo.</p>
+          <div class="article-meta">
+            <span><strong>Luisa Jensen</strong></span><span><strong>30 mar, 2024</strong></span><span><strong>12 min</strong></span>
+          </div>
         </div>
-    </footer>
+      </li>
+      <li class="article-card">
+        <a class="card-img" href="articulos.html"><img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/624213986eca3f2b58142c24_post-street-art-festival-thumbnail.jpg" alt=""></a>
+        <div class="card-info">
+          <span class="tag oro">Festival</span>
+          <h3 class="card-title"><a href="articulos.html">Festival de muralismo patagónico</a></h3>
+          <p class="card-excerpt">El encuentro que convierte las paredes de Plottier y Neuquén en un museo a cielo abierto.</p>
+          <div class="article-meta">
+            <span><strong>Cristófer Vaccaro</strong></span><span><strong>28 mar, 2024</strong></span><span><strong>5 min</strong></span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <p class="sidebar-label">Newsletter</p>
+      <h3 class="sidebar-title">Noticias al instante</h3>
+      <form class="newsletter-form" onsubmit="return false;">
+        <input type="email" placeholder="tu@email.com">
+        <button class="btn" type="submit">Suscribirse</button>
+      </form>
+    </div>
+    <div class="sidebar-section">
+      <p class="sidebar-label">Lo más leído</p>
+      <ul class="popular-list" id="popular-list"></ul>
+    </div>
+  </aside>
+</section>
+
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <p class="footer-logo">Revista La<span>F</span>ractura</p>
+      <p class="footer-desc">Medio de comunicación independiente de la Patagonia. Periodismo sin ataduras desde Neuquén hacia el mundo.</p>
+    </div>
+    <div>
+      <p class="footer-nav-title">Secciones</p>
+      <ul class="footer-nav-list">
+        <li><a href="articulos.html">Artículos</a></li>
+        <li><a href="podcast.html">Podcast</a></li>
+        <li><a href="entrevistas.html">Entrevistas</a></li>
+        <li><a href="columnistas.html">Columnistas</a></li>
+        <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2025 Revista La Fractura — Neuquén, Patagonia Argentina</span>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.nav-dropdown').forEach(function(dropdown) {
+    var closeTimer;
+    dropdown.addEventListener('mouseenter', function() {
+      clearTimeout(closeTimer);
+      dropdown.querySelector('.dropdown-menu').classList.add('open');
+    });
+    dropdown.addEventListener('mouseleave', function() {
+      closeTimer = setTimeout(function() {
+        dropdown.querySelector('.dropdown-menu').classList.remove('open');
+      }, 200);
+    });
+  });
+</script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
+      }
+    });
+  }
+</script>
+<script src="cargar-contenido.js"></script>
 </body>
 </html>

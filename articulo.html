@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artículo — Revista La Fractura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --celeste: #00A3DD;
+    --oro: #D4AF37;
+    --verde: #1A4D2E;
+    --rojo: #C1292E;
+    --blanco: #FFFFFF;
+    --negro: #0D0D0D;
+    --gris-claro: #F4F4F2;
+    --gris: #9A9A9A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--blanco); color: var(--negro); }
+  a { text-decoration: none; color: inherit; }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 60px;
+    background: var(--blanco); border-bottom: 2px solid var(--negro);
+  }
+  .logo { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.35rem; letter-spacing: -0.02em; }
+  .logo span { color: var(--rojo); }
+  .nav-links { display: flex; gap: 40px; list-style: none; align-items: center; }
+  .nav-links a { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--rojo); }
+  .btn-socio { background: var(--rojo); color: var(--blanco) !important; padding: 9px 18px; border: 2px solid var(--rojo); transition: background 0.2s, color 0.2s; }
+  .btn-socio:hover { background: transparent; color: var(--rojo) !important; }
+  .nav-dropdown { position: relative; }
+  .nav-dropdown > a { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+  .nav-dropdown > a::after { content: '▾'; font-size: 0.8em; }
+  .dropdown-menu { display: none; position: absolute; top: calc(100% + 16px); right: 0; background: var(--blanco); border: 2px solid var(--negro); min-width: 180px; z-index: 200; list-style: none; }
+  .dropdown-menu.open { display: block; }
+  .dropdown-menu li a { display: block; padding: 12px 18px; font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid #e0e0e0; transition: background 0.15s; }
+  .dropdown-menu li:last-child a { border-bottom: none; }
+  .dropdown-menu li a:hover { background: var(--negro); color: var(--blanco); }
+
+  /* Estilos para el cuerpo del artículo */
+  .articulo-body h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 2rem 0 0.8rem; }
+  .articulo-body h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin: 1.5rem 0 0.6rem; }
+  .articulo-body p { margin-bottom: 1.4rem; }
+  .articulo-body strong { font-weight: 700; }
+  .articulo-body em { font-style: italic; }
+  .articulo-body a { color: var(--rojo); text-decoration: underline; }
+  .articulo-body blockquote { border-left: 4px solid var(--rojo); padding-left: 1.2rem; margin: 1.5rem 0; color: #555; font-style: italic; }
+
+  .tag { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; background: var(--negro); color: var(--blanco); margin-bottom: 12px; }
+  .tag.rojo { background: var(--rojo); }
+  .tag.verde { background: var(--verde); }
+  .tag.oro { background: var(--oro); color: var(--negro); }
+  .tag.celeste { background: var(--celeste); }
+
+  footer { background: var(--negro); color: var(--blanco); padding: 56px 48px 28px; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 14px; }
+  .footer-logo span { color: var(--rojo); }
+  .footer-bottom { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: #555; padding-top: 28px; border-top: 1px solid #333; margin-top: 28px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Revista La<span>F</span>ractura</a>
+  <ul class="nav-links">
+    <li><a href="articulos.html">Artículos</a></li>
+    <li><a href="#socio" class="btn-socio">Hacete socio</a></li>
+    <li class="nav-dropdown">
+      <a href="#">Más</a>
+      <ul class="dropdown-menu">
+        <li><a href="entrevistas.html">Entrevistas</a></li>
+        <li><a href="columnistas.html">Columnistas</a></li>
+        <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<main>
+  <div id="articulo-contenido">
+    <p style="padding:80px 48px;font-family:'Space Mono',monospace;font-size:0.8rem;color:#888;">Cargando artículo...</p>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-logo">Revista La<span>F</span>ractura</div>
+  <p style="font-size:0.83rem;color:#888;line-height:1.7;max-width:400px;">Medio de comunicación independiente de la Patagonia. Periodismo sin ataduras desde Neuquén hacia el mundo.</p>
+  <div class="footer-bottom">
+    <span>© 2025 Revista La Fractura — Neuquén, Patagonia Argentina</span>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.nav-dropdown').forEach(function(dropdown) {
+    var closeTimer;
+    dropdown.addEventListener('mouseenter', function() { clearTimeout(closeTimer); dropdown.querySelector('.dropdown-menu').classList.add('open'); });
+    dropdown.addEventListener('mouseleave', function() { closeTimer = setTimeout(function() { dropdown.querySelector('.dropdown-menu').classList.remove('open'); }, 200); });
+  });
+</script>
+<script src="cargar-contenido.js"></script>
+</body>
+</html>

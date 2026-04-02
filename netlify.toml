@@ -1,7 +1,11 @@
-[build]
-  publish = "."
+# netlify.toml — Configuración de Netlify para Revista La Fractura
 
-[[redirects]]
-  from = "/admin/*"
-  to = "/admin/index.html"
-  status = 200
+[build]
+  publish = "."     # el sitio vive en la raíz del repositorio
+
+# Habilita Netlify Identity y Git Gateway (necesarios para el CMS)
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"

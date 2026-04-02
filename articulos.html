@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artículos — Revista La Fractura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --celeste:#00A3DD; --oro:#D4AF37; --verde:#1A4D2E; --rojo:#C1292E; --blanco:#FFFFFF; --negro:#0D0D0D; --gris-claro:#F4F4F2; --gris:#9A9A9A; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--blanco); color: var(--negro); overflow-x: hidden; }
+  a { text-decoration: none; color: inherit; }
+
+  nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 60px; background: var(--blanco); border-bottom: 2px solid var(--negro); }
+  .logo { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.35rem; letter-spacing: -0.02em; }
+  .logo span { color: var(--rojo); }
+  .nav-links { display: flex; gap: 40px; list-style: none; align-items: center; }
+  .nav-links a { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--rojo); }
+  .nav-links a.active { color: var(--rojo); border-bottom: 2px solid var(--rojo); padding-bottom: 2px; }
+  .btn-socio { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; background: var(--rojo); color: var(--blanco) !important; padding: 9px 18px; border: 2px solid var(--rojo); transition: background 0.2s, color 0.2s; }
+  .btn-socio:hover { background: transparent; color: var(--rojo) !important; }
+  .nav-dropdown { position: relative; }
+  .nav-dropdown > a { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+  .nav-dropdown > a::after { content: '▾'; font-size: 0.8em; }
+  .dropdown-menu { display: none; position: absolute; top: calc(100% + 16px); right: 0; background: var(--blanco); border: 2px solid var(--negro); min-width: 180px; z-index: 200; list-style: none; }
+  .nav-dropdown .dropdown-menu.open { display: block; }
+  .dropdown-menu li a { display: block; padding: 12px 18px; font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--negro); border-bottom: 1px solid #e0e0e0; transition: background 0.15s; }
+  .dropdown-menu li:last-child a { border-bottom: none; }
+  .dropdown-menu li a:hover { background: var(--negro); color: var(--blanco); }
+
+  /* PAGE HEADER */
+  .page-header { background: var(--negro); padding: 56px 48px; border-bottom: 2px solid var(--negro); position: relative; overflow: hidden; }
+  .page-header::after { content: 'ARTÍCULOS'; position: absolute; right: -20px; bottom: -30px; font-family: 'Playfair Display', serif; font-size: 11rem; font-weight: 900; color: transparent; -webkit-text-stroke: 1px #333; pointer-events: none; letter-spacing: -0.05em; line-height: 1; }
+  .page-header-label { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--celeste); margin-bottom: 12px; }
+  .page-header-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; color: var(--blanco); letter-spacing: -0.04em; line-height: 1; }
+  .page-header-title em { color: var(--oro); font-style: italic; }
+
+  /* FILTERS */
+  .filters { display: flex; gap: 0; border-bottom: 2px solid var(--negro); overflow-x: auto; }
+  .filter-btn { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 16px 28px; border: none; border-right: 2px solid var(--negro); background: var(--blanco); cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+  .filter-btn:hover { background: var(--gris-claro); }
+  .filter-btn.active { background: var(--negro); color: var(--blanco); }
+  .filter-btn:last-child { border-right: none; }
+
+  /* ARTICLES GRID */
+  .articles-main { display: grid; grid-template-columns: 1fr 300px; border-bottom: 2px solid var(--negro); }
+  .articles-col { border-right: 2px solid var(--negro); }
+  .art-featured { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 2px solid var(--negro); min-height: 380px; }
+  .art-featured-img { overflow: hidden; }
+  .art-featured-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; }
+  .art-featured-img:hover img { transform: scale(1.04); }
+  .art-featured-info { padding: 44px 40px; background: var(--gris-claro); display: flex; flex-direction: column; justify-content: space-between; }
+  .tag { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; background: var(--celeste); color: var(--blanco); padding: 4px 10px; margin-bottom: 16px; width: fit-content; }
+  .tag.verde { background: var(--verde); }
+  .tag.rojo { background: var(--rojo); }
+  .tag.oro { background: var(--oro); color: var(--negro); }
+  .art-title-lg { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 14px; }
+  .art-title-lg a:hover { color: var(--rojo); }
+  .art-excerpt { font-size: 0.87rem; color: #555; line-height: 1.7; margin-bottom: 20px; }
+  .art-meta { display: flex; gap: 20px; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.06em; color: var(--gris); text-transform: uppercase; }
+  .art-meta span { display: flex; flex-direction: column; gap: 3px; }
+  .art-meta strong { color: var(--negro); font-size: 0.72rem; }
+  .art-list { list-style: none; }
+  .art-row { display: grid; grid-template-columns: 200px 1fr; border-bottom: 2px solid var(--negro); min-height: 170px; overflow: hidden; }
+  .art-row:last-child { border-bottom: none; }
+  .art-row-img { overflow: hidden; }
+  .art-row-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+  .art-row:hover .art-row-img img { transform: scale(1.05); }
+  .art-row-info { padding: 24px 28px; display: flex; flex-direction: column; justify-content: space-between; }
+  .art-title-sm { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; line-height: 1.3; margin: 8px 0 8px; letter-spacing: -0.01em; }
+  .art-title-sm a:hover { color: var(--rojo); }
+  .art-excerpt-sm { font-size: 0.82rem; color: #666; line-height: 1.6; margin-bottom: 12px; }
+
+  /* Sidebar */
+  .art-sidebar { padding: 36px 28px; }
+  .sb-section { margin-bottom: 44px; }
+  .sb-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--celeste); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .sb-label::after { content: ''; flex: 1; height: 1px; background: var(--celeste); opacity: 0.3; }
+  .cat-list { list-style: none; }
+  .cat-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #E8E8E8; font-size: 0.88rem; }
+  .cat-item a:hover { color: var(--rojo); }
+  .cat-count { font-family: 'Space Mono', monospace; font-size: 0.65rem; background: var(--gris-claro); padding: 3px 8px; color: var(--gris); }
+  .pop-list { list-style: none; }
+  .pop-item { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; padding: 14px 0; border-bottom: 1px solid #E8E8E8; }
+  .pop-num { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 900; color: transparent; line-height: 1; -webkit-text-stroke: 1px #CCC; }
+  .pop-title { font-family: 'Playfair Display', serif; font-size: 0.88rem; font-weight: 700; line-height: 1.3; margin-bottom: 4px; }
+  .pop-author { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--gris); text-transform: uppercase; }
+
+  /* Pagination */
+  .pagination { display: flex; justify-content: center; align-items: center; padding: 40px; border-bottom: 2px solid var(--negro); }
+  .page-num { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.06em; padding: 12px 18px; border: 2px solid var(--negro); margin-left: -2px; transition: all 0.2s; cursor: pointer; background: var(--blanco); }
+  .page-num:hover, .page-num.active { background: var(--negro); color: var(--blanco); }
+
+  /* Newsletter */
+  .nl-full { background: var(--verde); border-top: 2px solid var(--negro); }
+  .nl-content { display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 64px; gap: 56px; }
+  .nl-heading { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 900; color: var(--blanco); line-height: 1.1; letter-spacing: -0.03em; }
+  .nl-heading em { color: var(--oro); font-style: italic; }
+  .nl-form { display: flex; flex-direction: column; gap: 10px; }
+  .nl-form input { padding: 14px 18px; border: 2px solid var(--blanco); background: transparent; color: var(--blanco); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; outline: none; }
+  .nl-form input::placeholder { color: rgba(255,255,255,0.45); }
+  .btn-gold { background: var(--oro); color: var(--negro); border: 2px solid var(--oro); font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 14px; cursor: pointer; transition: all 0.2s; font-weight: 700; }
+  .btn-gold:hover { background: transparent; color: var(--oro); }
+
+  footer { background: var(--negro); color: var(--blanco); padding: 56px 48px 28px; }
+  .footer-top { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px; padding-bottom: 40px; border-bottom: 1px solid #333; margin-bottom: 28px; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 14px; }
+  .footer-logo span { color: var(--rojo); }
+  .footer-desc { font-size: 0.83rem; color: #888; line-height: 1.7; }
+  .footer-nav-title { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--celeste); margin-bottom: 16px; }
+  .footer-nav-list { list-style: none; }
+  .footer-nav-list li { margin-bottom: 8px; }
+  .footer-nav-list a { font-size: 0.88rem; color: #AAA; transition: color 0.2s; }
+  .footer-nav-list a:hover { color: var(--blanco); }
+  .footer-bottom { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: #555; }
+  .footer-bottom a { color: var(--oro); }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .page-header { padding: 40px 24px; } .page-header::after { display: none; }
+    .articles-main { grid-template-columns: 1fr; }
+    .art-featured { grid-template-columns: 1fr; }
+    .art-row { grid-template-columns: 130px 1fr; }
+    .footer-top { grid-template-columns: 1fr; } .nl-content { grid-template-columns: 1fr; padding: 40px 24px; }
+    .dropdown-menu { right: auto; left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Revista La<span>F</span>ractura</a>
+  <ul class="nav-links">
+    <li><a href="articulos.html" class="active">Artículos</a></li>
+    <li><a href="#socio" class="btn-socio">Hacete socio</a></li>
+    <li class="nav-dropdown">
+      <a href="#">Más</a>
+      <ul class="dropdown-menu">
+        <li><a href="entrevistas.html">Entrevistas</a></li>
+        <li><a href="columnistas.html">Columnistas</a></li>
+        <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <p class="page-header-label">Toda la cobertura</p>
+  <h1 class="page-header-title">Artículos &amp; <em>Crónicas</em></h1>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active">Todos</button>
+  <button class="filter-btn">Política</button>
+  <button class="filter-btn">Sociedad</button>
+  <button class="filter-btn">Cultura</button>
+  <button class="filter-btn">Investigación</button>
+  <button class="filter-btn">Arte Callejero</button>
+  <button class="filter-btn">Economía</button>
+  <button class="filter-btn">Territorio</button>
+</div>
+
+<div class="articles-main">
+  <div class="articles-col">
+    <article class="art-featured" id="art-featured">
+      <a class="art-featured-img" href="#">
+        <img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/6240a3d9e032ac696123d779_post-dont-close-your-eyes-preview.jpg" alt="">
+      </a>
+      <div class="art-featured-info">
+        <div>
+          <span class="tag rojo">Arte Callejero</span>
+          <h2 class="art-title-lg"><a href="#">Cargando...</a></h2>
+          <p class="art-excerpt"></p>
+        </div>
+        <div class="art-meta"></div>
+      </div>
+    </article>
+
+    <ul class="art-list" id="art-list">
+      <li class="art-row">
+        <a class="art-row-img" href="#"><img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/62421328c5b7f8e6af0c9861_post-hope-dies-last-thumbnail.jpg" alt=""></a>
+        <div class="art-row-info">
+          <div><span class="tag verde">Política</span><h3 class="art-title-sm"><a href="#">La esperanza muere última</a></h3><p class="art-excerpt-sm">Movimientos sociales que resisten el ajuste y redefinen la participación ciudadana en la provincia.</p></div>
+          <div class="art-meta"><span><strong>Ana Henry</strong></span><span><strong>28 mar, 2024</strong></span><span><strong>10 min</strong></span></div>
+        </div>
+      </li>
+      <li class="art-row">
+        <a class="art-row-img" href="#"><img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/62421349a1ecba694e0d8da3_post-the-best-art-museums-thumbnail.jpg" alt=""></a>
+        <div class="art-row-info">
+          <div><span class="tag">Cultura</span><h3 class="art-title-sm"><a href="#">Los mejores espacios culturales del Neuquén</a></h3><p class="art-excerpt-sm">Museos y centros comunitarios que hacen del arte un derecho en la región patagónica.</p></div>
+          <div class="art-meta"><span><strong>Luisa Jensen</strong></span><span><strong>28 mar, 2024</strong></span><span><strong>10 min</strong></span></div>
+        </div>
+      </li>
+      <li class="art-row">
+        <a class="art-row-img" href="#"><img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/6242135e265c5a3978844d8d_post-the-devil-is-in-the-details-thumbnail.jpg" alt=""></a>
+        <div class="art-row-info">
+          <div><span class="tag rojo">Investigación</span><h3 class="art-title-sm"><a href="#">El diablo está en los detalles</a></h3><p class="art-excerpt-sm">Los contratos petroleros en Vaca Muerta esconden cláusulas que favorecen a las corporaciones energéticas.</p></div>
+          <div class="art-meta"><span><strong>Jana Cooper</strong></span><span><strong>28 mar, 2024</strong></span><span><strong>35 min</strong></span></div>
+        </div>
+      </li>
+      <li class="art-row">
+        <a class="art-row-img" href="#"><img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/62421377e718b85e561eb9b2_post-an-indestructible-hope-thumbnail.jpg" alt=""></a>
+        <div class="art-row-info">
+          <div><span class="tag verde">Sociedad</span><h3 class="art-title-sm"><a href="#">Una esperanza indestructible</a></h3><p class="art-excerpt-sm">Comunidades mapuches construyendo autonomía en territorios amenazados por el extractivismo.</p></div>
+          <div class="art-meta"><span><strong>Luisa Jensen</strong></span><span><strong>30 mar, 2024</strong></span><span><strong>12 min</strong></span></div>
+        </div>
+      </li>
+      <li class="art-row">
+        <a class="art-row-img" href="#"><img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/624213986eca3f2b58142c24_post-street-art-festival-thumbnail.jpg" alt=""></a>
+        <div class="art-row-info">
+          <div><span class="tag oro">Festival</span><h3 class="art-title-sm"><a href="#">Festival de muralismo patagónico 2024</a></h3><p class="art-excerpt-sm">El encuentro que convierte las paredes de Plottier y Neuquén en un museo a cielo abierto.</p></div>
+          <div class="art-meta"><span><strong>Cristófer Vaccaro</strong></span><span><strong>28 mar, 2024</strong></span><span><strong>5 min</strong></span></div>
+        </div>
+      </li>
+      <li class="art-row">
+        <a class="art-row-img" href="#"><img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/6242141217c9665d2845ce7c_post-the-chains-of-your-lives-thumbnail.jpg" alt=""></a>
+        <div class="art-row-info">
+          <div><span class="tag">Economía</span><h3 class="art-title-sm"><a href="#">Las cadenas de nuestras vidas</a></h3><p class="art-excerpt-sm">Cómo la deuda externa remodela la vida cotidiana de los habitantes de las provincias patagónicas.</p></div>
+          <div class="art-meta"><span><strong>Luisa Jensen</strong></span><span><strong>28 mar, 2024</strong></span><span><strong>30 min</strong></span></div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <aside class="art-sidebar">
+    <div class="sb-section">
+      <p class="sb-label">Categorías</p>
+      <ul class="cat-list">
+        <li class="cat-item"><a href="#">Política</a><span class="cat-count">24</span></li>
+        <li class="cat-item"><a href="#">Sociedad</a><span class="cat-count">18</span></li>
+        <li class="cat-item"><a href="#">Cultura</a><span class="cat-count">31</span></li>
+        <li class="cat-item"><a href="#">Investigación</a><span class="cat-count">12</span></li>
+        <li class="cat-item"><a href="#">Arte Callejero</a><span class="cat-count">9</span></li>
+        <li class="cat-item"><a href="#">Economía</a><span class="cat-count">15</span></li>
+        <li class="cat-item"><a href="#">Territorio</a><span class="cat-count">7</span></li>
+      </ul>
+    </div>
+    <div class="sb-section">
+      <p class="sb-label">Lo más leído</p>
+      <ul class="pop-list" id="pop-list"></ul>
+    </div>
+  </aside>
+</div>
+
+<div class="pagination">
+  <span class="page-num active">01</span>
+  <span class="page-num">02</span>
+  <span class="page-num">03</span>
+  <span class="page-num">04</span>
+  <span class="page-num">→</span>
+</div>
+
+
+<footer>
+  <div class="footer-top">
+    <div><p class="footer-logo">Revista La<span>F</span>ractura</p><p class="footer-desc">Medio de comunicación independiente de la Patagonia.</p></div>
+    <div>
+      <p class="footer-nav-title">Secciones</p>
+      <ul class="footer-nav-list">
+        <li><a href="articulos.html">Artículos</a></li>
+        <li><a href="entrevistas.html">Entrevistas</a></li>
+        <li><a href="columnistas.html">Columnistas</a></li>
+        <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Revista La Fractura — Neuquén, Patagonia</span>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+  document.querySelectorAll('.page-num').forEach(p => {
+    p.addEventListener('click', function() {
+      document.querySelectorAll('.page-num').forEach(n => n.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+<script>
+  document.querySelectorAll('.nav-dropdown').forEach(function(dropdown) {
+    var closeTimer;
+    dropdown.addEventListener('mouseenter', function() {
+      clearTimeout(closeTimer);
+      dropdown.querySelector('.dropdown-menu').classList.add('open');
+    });
+    dropdown.addEventListener('mouseleave', function() {
+      closeTimer = setTimeout(function() {
+        dropdown.querySelector('.dropdown-menu').classList.remove('open');
+      }, 200);
+    });
+  });
+</script>
+<script src="cargar-contenido.js"></script>
+</body>
+</html>

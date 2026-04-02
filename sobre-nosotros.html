@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sobre nosotros — Revista La Fractura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --celeste:#00A3DD; --oro:#D4AF37; --verde:#1A4D2E; --rojo:#C1292E; --blanco:#FFFFFF; --negro:#0D0D0D; --gris-claro:#F4F4F2; --gris:#9A9A9A; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--blanco); color: var(--negro); overflow-x: hidden; }
+  a { text-decoration: none; color: inherit; }
+
+  nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 60px; background: var(--blanco); border-bottom: 2px solid var(--negro); }
+  .logo { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.35rem; letter-spacing: -0.02em; }
+  .logo span { color: var(--rojo); }
+  .nav-links { display: flex; gap: 40px; list-style: none; align-items: center; }
+  .nav-links a { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--rojo); }
+  .nav-links a.active { color: var(--rojo); border-bottom: 2px solid var(--rojo); padding-bottom: 2px; }
+  .btn-socio { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; background: var(--rojo); color: var(--blanco) !important; padding: 9px 18px; border: 2px solid var(--rojo); transition: background 0.2s, color 0.2s; }
+  .btn-socio:hover { background: transparent; color: var(--rojo) !important; }
+  .nav-dropdown { position: relative; }
+  .nav-dropdown > a { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+  .nav-dropdown > a::after { content: '▾'; font-size: 0.8em; }
+  .dropdown-menu { display: none; position: absolute; top: calc(100% + 16px); right: 0; background: var(--blanco); border: 2px solid var(--negro); min-width: 180px; z-index: 200; list-style: none; }
+  .nav-dropdown .dropdown-menu.open { display: block; }
+  .dropdown-menu li a { display: block; padding: 12px 18px; font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--negro); border-bottom: 1px solid #e0e0e0; transition: background 0.15s; }
+  .dropdown-menu li:last-child a { border-bottom: none; }
+  .dropdown-menu li a:hover { background: var(--negro); color: var(--blanco); }
+
+  /* HERO */
+  .hero-about {
+    background: var(--negro);
+    min-height: 420px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 2px solid var(--negro);
+    overflow: hidden;
+    position: relative;
+  }
+  .hero-about-text {
+    padding: 72px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-about::after {
+    content: 'LF';
+    position: absolute;
+    right: 30%;
+    bottom: -60px;
+    font-family: 'Playfair Display', serif;
+    font-size: 28rem;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.06);
+    pointer-events: none;
+    line-height: 1;
+    letter-spacing: -0.08em;
+  }
+  .about-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--oro); margin-bottom: 20px; }
+  .about-headline { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 900; color: var(--blanco); letter-spacing: -0.04em; line-height: 0.95; margin-bottom: 28px; }
+  .about-headline em { color: var(--oro); font-style: italic; }
+  .about-intro { font-size: 1.05rem; color: rgba(255,255,255,0.75); line-height: 1.8; max-width: 440px; }
+  .hero-about-img {
+    overflow: hidden;
+    position: relative;
+  }
+  .hero-about-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.55;
+    filter: grayscale(30%);
+  }
+  .hero-about-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--negro) 0%, transparent 40%);
+  }
+
+  /* MANIFIESTO */
+  .manifesto {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 2px solid var(--negro);
+  }
+  .manifesto-left {
+    border-right: 2px solid var(--negro);
+    padding: 72px 64px;
+    background: var(--verde);
+  }
+  .manifesto-right { padding: 72px 64px; }
+  .section-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--celeste); margin-bottom: 16px; }
+  .manifesto-left .section-label { color: var(--oro); }
+  .manifesto-title { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; margin-bottom: 28px; color: var(--blanco); }
+  .manifesto-text { font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.85; }
+  .manifesto-text p { margin-bottom: 18px; }
+  .manifesto-text p:last-child { margin-bottom: 0; }
+  .values-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; margin-bottom: 32px; }
+  .values-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+  .value-item { padding: 20px 0; border-bottom: 2px solid var(--negro); display: flex; gap: 20px; align-items: flex-start; }
+  .value-item:last-child { border-bottom: none; }
+  .value-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: transparent; -webkit-text-stroke: 1px #CCC; line-height: 1; min-width: 40px; }
+  .value-content h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; }
+  .value-content p { font-size: 0.88rem; color: #555; line-height: 1.6; }
+
+  /* HISTORIA */
+  .historia {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    border-bottom: 2px solid var(--negro);
+    min-height: 320px;
+  }
+  .historia-img { overflow: hidden; }
+  .historia-img img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(40%); transition: filter 0.4s; }
+  .historia-img:hover img { filter: grayscale(0); }
+  .historia-text { padding: 56px 56px; border-left: 2px solid var(--negro); display: flex; flex-direction: column; justify-content: center; }
+  .historia-text h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 20px; }
+  .historia-text p { font-size: 0.95rem; color: #444; line-height: 1.85; margin-bottom: 16px; }
+  .historia-text p:last-child { margin-bottom: 0; }
+
+  /* STATS */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 2px solid var(--negro);
+  }
+  .stat-box { padding: 48px 36px; border-right: 2px solid var(--negro); text-align: center; }
+  .stat-box:last-child { border-right: none; }
+  .stat-big { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; color: var(--negro); line-height: 1; letter-spacing: -0.04em; margin-bottom: 8px; }
+  .stat-big span { color: var(--rojo); }
+  .stat-desc { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gris); }
+
+  /* EQUIPO */
+  .team-section { border-bottom: 2px solid var(--negro); }
+  .sec-hdr { display: flex; align-items: baseline; justify-content: space-between; padding: 40px 48px 28px; border-bottom: 2px solid var(--negro); }
+  .sec-hdr h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; letter-spacing: -0.04em; }
+  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .team-card { border-right: 2px solid var(--negro); text-align: center; padding: 36px 20px; transition: background 0.2s; }
+  .team-card:last-child { border-right: none; }
+  .team-card:hover { background: var(--gris-claro); }
+  .team-card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--negro); margin: 0 auto 14px; display: block; filter: grayscale(20%); }
+  .team-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 5px; }
+  .team-role { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris); margin-bottom: 4px; }
+  .team-city { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--celeste); text-transform: uppercase; }
+
+  /* CTA SOCIO */
+  .cta-socio {
+    background: var(--oro);
+    border-bottom: 2px solid var(--negro);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 64px 64px;
+    gap: 48px;
+  }
+  .cta-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900; color: var(--negro); line-height: 1.05; letter-spacing: -0.04em; }
+  .cta-title em { font-style: italic; color: var(--verde); }
+  .cta-desc { font-size: 1rem; color: var(--negro); line-height: 1.7; margin-bottom: 28px; opacity: 0.8; }
+  .btn-negro { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 32px; background: var(--negro); color: var(--blanco); border: 2px solid var(--negro); cursor: pointer; transition: all 0.2s; }
+  .btn-negro:hover { background: var(--verde); border-color: var(--verde); }
+
+  /* Newsletter */
+  .nl-full { background: var(--verde); border-top: 2px solid var(--negro); }
+  .nl-content { display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 64px; gap: 56px; }
+  .nl-heading { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 900; color: var(--blanco); line-height: 1.1; letter-spacing: -0.03em; }
+  .nl-heading em { color: var(--oro); font-style: italic; }
+  .nl-form { display: flex; flex-direction: column; gap: 10px; }
+  .nl-form input { padding: 14px 18px; border: 2px solid var(--blanco); background: transparent; color: var(--blanco); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; outline: none; }
+  .nl-form input::placeholder { color: rgba(255,255,255,0.45); }
+  .btn-gold { background: var(--oro); color: var(--negro); border: 2px solid var(--oro); font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 14px; cursor: pointer; transition: all 0.2s; font-weight: 700; }
+  .btn-gold:hover { background: transparent; color: var(--oro); }
+
+  footer { background: var(--negro); color: var(--blanco); padding: 56px 48px 28px; }
+  .footer-top { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px; padding-bottom: 40px; border-bottom: 1px solid #333; margin-bottom: 28px; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 14px; }
+  .footer-logo span { color: var(--rojo); }
+  .footer-desc { font-size: 0.83rem; color: #888; line-height: 1.7; }
+  .footer-nav-title { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--celeste); margin-bottom: 16px; }
+  .footer-nav-list { list-style: none; }
+  .footer-nav-list li { margin-bottom: 8px; }
+  .footer-nav-list a { font-size: 0.88rem; color: #AAA; transition: color 0.2s; }
+  .footer-nav-list a:hover { color: var(--blanco); }
+  .footer-bottom { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: #555; }
+  .footer-bottom a { color: var(--oro); }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .hero-about, .manifesto, .historia, .stats-bar, .team-grid, .cta-socio, .nl-content, .footer-top { grid-template-columns: 1fr; }
+    .manifesto-left { border-right: none; border-bottom: 2px solid var(--negro); }
+    .historia-text { border-left: none; border-top: 2px solid var(--negro); }
+    .hero-about-text { padding: 48px 32px; }
+    .manifesto-left, .manifesto-right { padding: 48px 32px; }
+    .stat-box { border-right: none; border-bottom: 2px solid var(--negro); }
+    .team-card { border-right: none; border-bottom: 2px solid var(--negro); }
+    .cta-socio, .nl-content { padding: 40px 24px; }
+    .dropdown-menu { right: auto; left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Revista La<span>F</span>ractura</a>
+  <ul class="nav-links">
+    <li><a href="articulos.html">Artículos</a></li>
+    <li><a href="#socio" class="btn-socio">Hacete socio</a></li>
+    <li class="nav-dropdown">
+      <a href="#" class="active">Más</a>
+      <ul class="dropdown-menu">
+        <li><a href="entrevistas.html">Entrevistas</a></li>
+        <li><a href="columnistas.html">Columnistas</a></li>
+        <li><a href="sobre-nosotros.html" class="active">Sobre nosotros</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero-about">
+  <div class="hero-about-text">
+    <div>
+      <p class="about-label">Quiénes somos</p>
+      <h1 class="about-headline">Periodismo <em>sin ataduras</em> desde la Patagonia</h1>
+      <p class="about-intro">La Fractura es un medio de comunicación independiente nacido en Neuquén en 2023. Hacemos periodismo de investigación, cultura y territorio desde el sur del mundo, sin dueños, sin pauta oficial y sin compromisos con el poder.</p>
+    </div>
+  </div>
+  <div class="hero-about-img">
+    <img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/6240a3d9e032ac696123d779_post-dont-close-your-eyes-preview.jpg" alt="La Fractura">
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-box">
+    <p class="stat-big">2<span>+</span></p>
+    <p class="stat-desc">Años de periodismo</p>
+  </div>
+  <div class="stat-box">
+    <p class="stat-big">48<span>+</span></p>
+    <p class="stat-desc">Artículos publicados</p>
+  </div>
+  <div class="stat-box">
+    <p class="stat-big">6</p>
+    <p class="stat-desc">Columnistas activos</p>
+  </div>
+  <div class="stat-box">
+    <p class="stat-big">5<span>+</span></p>
+    <p class="stat-desc">Episodios de podcast</p>
+  </div>
+</div>
+
+<!-- MANIFIESTO + VALORES -->
+<div class="manifesto">
+  <div class="manifesto-left">
+    <p class="section-label">Nuestro manifiesto</p>
+    <h2 class="manifesto-title">Por qué existe La Fractura</h2>
+    <div class="manifesto-text">
+      <p>La Patagonia es una región que genera riqueza para el mundo y pobreza para sus habitantes. Vaca Muerta alimenta ciudades en el hemisferio norte mientras los barrios de Neuquén no tienen cloacas. Esa fractura es la que nos da nombre.</p>
+      <p>Nacemos de la convicción de que el periodismo puede ser un acto de reparación. Que contar bien una historia es una forma de hacer justicia. Que la información no es una mercancía sino un derecho.</p>
+      <p>Somos independientes porque no aceptamos pauta oficial ni corporativa. Nos financiamos con el apoyo de nuestros lectores, de gente que cree —como nosotros— que vale la pena pagar por periodismo honesto.</p>
+    </div>
+  </div>
+  <div class="manifesto-right">
+    <p class="section-label">Lo que nos guía</p>
+    <h2 class="values-title">Nuestros valores</h2>
+    <ul class="values-list">
+      <li class="value-item">
+        <span class="value-num">01</span>
+        <div class="value-content">
+          <h3>Independencia radical</h3>
+          <p>Sin pauta oficial, sin dueños empresariales, sin compromisos con el poder. Nos debemos solo a la verdad y a nuestros lectores.</p>
+        </div>
+      </li>
+      <li class="value-item">
+        <span class="value-num">02</span>
+        <div class="value-content">
+          <h3>Rigor periodístico</h3>
+          <p>Verificamos antes de publicar. Citamos fuentes, publicamos datos y reconocemos nuestros errores cuando los cometemos.</p>
+        </div>
+      </li>
+      <li class="value-item">
+        <span class="value-num">03</span>
+        <div class="value-content">
+          <h3>Territorio y comunidad</h3>
+          <p>Nos interesa la Patagonia profunda: sus comunidades, su cultura, sus conflictos. No somos un medio de la capital mirando hacia el sur.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- HISTORIA -->
+<div class="historia">
+  <div class="historia-img">
+    <img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/624213986eca3f2b58142c24_post-street-art-festival-thumbnail.jpg" alt="Historia de La Fractura">
+  </div>
+  <div class="historia-text">
+    <p class="section-label">Nuestra historia</p>
+    <h2>Cómo nacimos</h2>
+    <p>La Fractura nació en diciembre de 2023, cuando un grupo de periodistas y artistas de Neuquén decidió que la región merecía un medio que la tratara con la misma seriedad con que los grandes diarios tratan a Buenos Aires.</p>
+    <p>Empezamos en un departamento de Plottier, con computadoras prestadas y mucho café. Hoy somos una redacción pequeña pero comprometida, con colaboradores en Zapala, Cutral Có y Buenos Aires.</p>
+    <p>Cada artículo que publicamos es un acto de fe en que el periodismo independiente puede sobrevivir —y florecer— fuera de los grandes centros de poder.</p>
+  </div>
+</div>
+
+<!-- EQUIPO -->
+<section class="team-section">
+  <div class="sec-hdr"><h2>El equipo</h2></div>
+  <div class="team-grid">
+    <div class="team-card">
+      <img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/6242afc32e086c0a8d63c35c_author-anne-henry.jpg" alt="Ana Henry">
+      <p class="team-name">Ana Henry</p>
+      <p class="team-role">Directora editorial</p>
+      <p class="team-city">📍 Neuquén</p>
+    </div>
+    <div class="team-card">
+      <img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/6242afab2f4ddf6c5ff876c7_author-louise-jensen.jpg" alt="Luisa Jensen">
+      <p class="team-name">Luisa Jensen</p>
+      <p class="team-role">Redactora jefa</p>
+      <p class="team-city">📍 Neuquén</p>
+    </div>
+    <div class="team-card">
+      <img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/6242afe123b6611ca33fefd7_author-jane-cooper.jpg" alt="Jana Cooper">
+      <p class="team-name">Jana Cooper</p>
+      <p class="team-role">Investigación</p>
+      <p class="team-city">📍 Zapala</p>
+    </div>
+    <div class="team-card">
+      <img src="https://cdn.prod.website-files.com/6240546a63932414bcd71bf5/6240b116e032ac7ae7244cdc_author-cristofer-vaccaro.jpg" alt="Cristófer Vaccaro">
+      <p class="team-name">Cristófer Vaccaro</p>
+      <p class="team-role">Arte y diseño</p>
+      <p class="team-city">📍 Cutral Có</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA HACETE SOCIO -->
+<div class="cta-socio" id="socio">
+  <div>
+    <h2 class="cta-title">Sostenemos el periodismo <em>independiente juntos</em></h2>
+  </div>
+  <div>
+    <p class="cta-desc">Hacerte socio de La Fractura es la forma más directa de apoyar el periodismo que creemos que la Patagonia necesita. Sin publicidad invasiva, sin pauta oficial. Solo periodismo.</p>
+    <a href="#" class="btn-negro">Hacete socio ahora →</a>
+  </div>
+</div>
+
+
+<footer>
+  <div class="footer-top">
+    <div><p class="footer-logo">Revista La<span>F</span>ractura</p><p class="footer-desc">Medio de comunicación independiente de la Patagonia.</p></div>
+    <div>
+      <p class="footer-nav-title">Secciones</p>
+      <ul class="footer-nav-list">
+        <li><a href="articulos.html">Artículos</a></li>
+        <li><a href="entrevistas.html">Entrevistas</a></li>
+        <li><a href="columnistas.html">Columnistas</a></li>
+        <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Revista La Fractura — Neuquén, Patagonia</span>
+  </div>
+</footer>
+<script>
+  document.querySelectorAll('.nav-dropdown').forEach(function(dropdown) {
+    var closeTimer;
+    dropdown.addEventListener('mouseenter', function() {
+      clearTimeout(closeTimer);
+      dropdown.querySelector('.dropdown-menu').classList.add('open');
+    });
+    dropdown.addEventListener('mouseleave', function() {
+      closeTimer = setTimeout(function() {
+        dropdown.querySelector('.dropdown-menu').classList.remove('open');
+      }, 200);
+    });
+  });
+</script>
+</body>
+</html>
